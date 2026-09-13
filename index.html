@@ -1,1 +1,118 @@
+<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>NORDIC // BLACKSITE-01</title><style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;min-height:100%;background:#030507;color:#b8c4d0;font:14px Consolas,monospace}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden;overflow-x:hidden;overflow-y:hidden}
+#game{width:96%;max-width:1100px;height:94%;max-height:720px;background:#0b1015;border:1px solid #34404c;box-shadow:0 0 45px #000;position:relative;overflow:hidden}
+@supports (height:100dvh){body{min-height:100dvh}#game{height:94dvh}}
+@supports not (height:100dvh){body{min-height:100vh}#game{height:94vh}}
+header{height:46px;border-bottom:1px solid #34404c;padding:0 14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+header b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cyan{color:#38d9ff}.red{color:#e63946}.dim{color:#667487}
+main{height:calc(100% - 46px);display:grid;grid-template-columns:230px minmax(0,1fr);min-height:0}
+.side{border-right:1px solid #34404c;padding:12px;min-width:0;overflow-y:auto}.side h3{font-size:12px;font-weight:normal;color:#667487;margin:4px 0 10px}
+button{-webkit-appearance:none;appearance:none;font:inherit;width:100%;min-height:42px;margin:4px 0;padding:9px;background:#10171e;border:1px solid #354351;color:#b8c4d0;cursor:pointer;border-radius:2px}
+button:hover,button.active{border-color:#38d9ff;color:#38d9ff}.meter{margin:12px 0;border:1px solid #354351;height:16px}.fill{height:100%;background:#38d9ff;width:100%;transition:.2s}
+.office{overflow:hidden;padding:14px;position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;gap:10px}.screen{flex:1;min-height:0;background:#020405;border:1px solid #34404c;position:relative;overflow:hidden}
+.scan{position:absolute;left:0;right:0;height:2px;background:#38d9ff2b;animation:scan 3.5s linear infinite;z-index:4;pointer-events:none}.desk{position:absolute;bottom:0;left:0;right:0;height:85px;background:#0a0d11;border-top:1px solid #34404c}
+.monitor{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:330px;height:185px;border:8px solid #1c252e;background:#071015;box-shadow:0 0 25px #000;max-width:62%;max-height:46%}.monitor:after{content:'';position:absolute;left:50%;bottom:-38px;width:45px;height:30px;background:#1c252e;transform:translateX(-50%)}
+.camtext{padding:18px;line-height:1.7;overflow:auto;height:100%;word-break:break-word}.door{position:absolute;top:60px;width:92px;height:245px;border:2px solid #475564;background:#11171d}.leftdoor{left:22px}.rightdoor{right:22px}.door.closed{background:#06080a;border-color:#e63946}
+.window{position:absolute;top:60px;width:38px;height:120px;background:#020304;border:1px solid #475564}.leftwin{left:120px}.rightwin{right:120px}
+.nordic{display:none;position:absolute;right:58px;top:90px;width:72px;height:210px;z-index:3;pointer-events:none}.nhead{height:58px;border:3px solid #697786;background:#111820;position:relative}.eye{position:absolute;top:22px;width:13px;height:5px;background:#e63946;box-shadow:0 0 12px #e63946}.e1{left:12px}.e2{right:12px}.nbody{width:52px;height:112px;border:3px solid #697786;background:#0b1015;margin:8px auto}.legs{display:flex;justify-content:center;gap:9px}.leg{width:15px;height:32px;border:2px solid #596674;background:#10161c}
+.log{position:relative;left:auto;right:auto;bottom:auto;flex:0 0 96px;height:96px;border:1px solid #34404c;background:#06090c;padding:8px;overflow:auto;font-size:12px;line-height:1.55;min-height:0}.alert{display:none;position:absolute;top:8px;left:8px;right:8px;padding:8px;border:1px solid #e63946;background:#18080b;color:#e63946;z-index:8;pointer-events:none}.help{margin-top:8px;color:#667487;font-size:11px;line-height:1.35}
 
+.facility-map{position:relative;width:100%;height:154px;margin:5px 0 10px;border:1px solid #26333f;background:#05090d;overflow:hidden;isolation:isolate}.facility-map:before{content:'';position:absolute;inset:7px;background:linear-gradient(90deg,#0b141b 1px,transparent 1px),linear-gradient(#0b141b 1px,transparent 1px);background-size:14px 14px;opacity:.45;z-index:-1}.map-corridor{position:absolute;background:#111d25;border:1px solid #314553}.c1{left:21%;top:43%;width:61%;height:12%}.c2{left:47%;top:18%;width:12%;height:60%}.c3{left:76%;top:43%;width:12%;height:30%}.map-room{position:absolute!important;min-height:0!important;width:auto!important;margin:0!important;padding:3px 2px!important;font-size:7px!important;line-height:1.05!important;background:#0b1218!important;border:1px solid #30414e!important;color:#8494a3!important;z-index:2}.map-room:hover,.map-room.active{border-color:#38d9ff!important;color:#38d9ff!important;box-shadow:0 0 7px #38d9ff22}.map-room span{font-size:6px}.office-room{left:2%;top:34%;width:19%!important;height:31%!important}.hall-room{left:25%;top:34%;width:18%!important;height:31%!important}.storage-room{left:61%;top:6%;width:17%!important;height:27%!important}.server-room{left:61%;top:66%;width:17%!important;height:27%!important}.lab-room{left:41%;top:2%;width:17%!important;height:20%!important}.archive-room{left:79%;top:7%;width:19%!important;height:27%!important}.maint-room{left:79%;top:66%;width:19%!important;height:27%!important}.gen-room{left:41%;top:78%;width:17%!important;height:18%!important}.load-room{left:83%;top:37%;width:15%!important;height:22%!important}.map-label{position:absolute;left:5px;bottom:3px;font-size:6px;color:#536676;letter-spacing:.5px}
+@keyframes scan{from{top:0}to{top:100%}}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none}
+
+@media (max-width:700px){
+ html,body{width:100%;height:100%;overflow:hidden}
+ body{display:block}
+ #game{width:100%;height:100%;min-height:100%;margin:0;border:0;box-shadow:none;overflow:hidden}
+  @supports (height:100dvh){#game{height:100dvh;min-height:100dvh}}
+  @supports not (height:100dvh){#game{height:100vh;min-height:100vh}}
+ header{height:54px;padding:0 12px;font-size:11px;padding-top:env(safe-area-inset-top);box-sizing:content-box}
+ header b{max-width:58%;line-height:1.15}
+ header #status{font-size:11px;text-align:right;white-space:nowrap}
+ main{height:calc(100% - 54px - env(safe-area-inset-top));display:flex;flex-direction:column;overflow:hidden}
+ .office{order:1;flex:0 0 55%;height:55%;min-height:0;padding:7px;gap:7px}
+ .screen{height:calc(100% - 76px);flex:1;min-height:0;width:100%;aspect-ratio:auto}
+ .monitor{width:min(66vw,300px);height:min(36vw,170px);top:42%;border-width:5px;max-width:68%;max-height:48%}
+ .camtext{padding:10px;font-size:11px;line-height:1.4}
+ .desk{height:18%}
+ .door{top:12%;height:55%;width:16%;min-width:38px}
+ .leftdoor{left:3%}.rightdoor{right:3%}
+ .window{top:15%;width:7%;height:28%}.leftwin{left:22%}.rightwin{right:22%}
+ .nordic{right:10%;top:17%;transform:scale(.7);transform-origin:top right}
+ .alert{font-size:10px;top:6px;left:6px;right:6px;padding:7px}
+ .log{flex:0 0 69px;height:69px;font-size:10px;line-height:1.35;padding:6px}
+ .side{order:2;width:100%;height:45%;min-height:0;max-height:none;border-right:0;border-top:1px solid #34404c;padding:8px 8px calc(8px + env(safe-area-inset-bottom));overflow-y:auto;background:#080c10}
+ .side h3{font-size:10px;margin:2px 0 4px}
+ .side button{display:inline-flex;width:calc(50% - 6px);min-height:44px;margin:3px;padding:9px 5px;font-size:11px;align-items:center;justify-content:center;vertical-align:top}
+ .facility-map{height:132px;margin-bottom:7px}.map-room{font-size:6px!important}.map-room span{font-size:5px}.meter{margin:6px 0;height:12px}.help{font-size:10px;line-height:1.3;margin-top:6px}
+}
+
+@media (max-width:380px){
+ header{height:50px;padding-left:9px;padding-right:9px}
+ header b{font-size:10px;max-width:56%} header #status{font-size:10px}
+ main{height:calc(100% - 50px - env(safe-area-inset-top))}
+ .office{flex-basis:53%;height:53%;padding:6px}
+ .side{height:47%;padding:7px}
+ .side button{min-height:40px;font-size:10px;padding:8px 3px}
+ .monitor{width:61vw;height:33vw}.facility-map{height:118px}
+ .camtext{font-size:10px;padding:8px}
+ .log{font-size:9px;height:62px;flex-basis:62px}
+}
+
+@media (orientation:landscape) and (max-height:500px) and (max-width:900px){
+ #game{height:100dvh}
+ main{display:grid;grid-template-columns:minmax(180px,30vw) minmax(0,1fr);height:calc(100% - 46px)}
+ header{height:46px;padding-top:0}
+ .side{order:1;width:auto;height:100%;max-height:none;border-top:0;border-right:1px solid #34404c;padding:8px;overflow-y:auto}
+ .office{order:2;height:100%;padding:8px}
+ .side button{width:100%;min-height:38px}
+}
+
+@media (min-width:701px) and (max-height:650px){#game{height:96dvh}.office{padding:10px}.log{flex-basis:80px;height:80px}}
+.hall-junction{display:none;position:relative;width:min(92%,520px);height:130px;margin:12px auto 0;border:1px solid #34404c;background:linear-gradient(90deg,rgba(255,255,255,.02) 0 49.5%,rgba(56,217,255,.08) 49.5% 50.5%,rgba(255,255,255,.02) 50.5%);overflow:hidden}.hall-junction.show{display:block}.hall-path{position:absolute;top:58px;width:42%;height:12px;background:#27313b}.hall-path.left{left:3%;transform:rotate(-12deg);transform-origin:right center}.hall-path.right{right:3%;transform:rotate(12deg);transform-origin:left center}.hall-center{position:absolute;left:50%;top:47px;transform:translateX(-50%);width:46px;height:46px;border:1px solid #526170;border-radius:50%;background:#11151b}.hall-label{position:absolute;top:8px;font-size:9px;letter-spacing:1px;color:#667387}.hall-label.left{left:8px}.hall-label.right{right:8px}.hall-subject{position:absolute;top:42px;width:28px;height:48px;background:#090c10;border:1px solid #667387;border-radius:8px;box-shadow:0 0 12px rgba(56,217,255,.15);transition:left .25s ease,right .25s ease}.hall-subject.left{left:23%}.hall-subject.right{right:23%}.hall-office{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);font-size:9px;color:#667387;letter-spacing:1px}</style></head><body><div id='game'><header><b>NORDIC // BLACKSITE-01</b><span id='status' class='cyan'>SHIFT 01 // 11:00 AM</span></header><main><aside class='side'><h3>CAMERA NETWORK</h3><button onclick='camera(1,this)'>CAM-01 // HALL A</button><button onclick='camera(2,this)'>CAM-02 // STORAGE</button><button onclick='camera(3,this)'>CAM-03 // SERVER</button><button onclick='camera(4,this)'>CAM-04 // LAB</button><button onclick='camera(5,this)'>CAM-05 // ARCHIVE</button><button onclick='camera(6,this)'>CAM-06 // MAINT</button><button onclick='camera(7,this)'>CAM-07 // GENERATOR</button><button onclick='camera(8,this)'>CAM-08 // LOADING</button><h3>FACILITY MAP</h3><div class='facility-map' aria-label='Blacksite facility map'><div class='map-corridor c1'></div><div class='map-corridor c2'></div><div class='map-corridor c3'></div><button class='map-room office-room' onclick='camera(1,this)'>SECURITY<br><span>OFFICE</span></button><button class='map-room hall-room' onclick='camera(1,this)'>HALL A</button><button class='map-room storage-room' onclick='camera(2,this)'>STORAGE</button><button class='map-room server-room' onclick='camera(3,this)'>SERVER</button><button class='map-room lab-room' onclick='camera(4,this)'>LAB</button><button class='map-room archive-room' onclick='camera(5,this)'>ARCHIVE</button><button class='map-room maint-room' onclick='camera(6,this)'>MAINT.</button><button class='map-room gen-room' onclick='camera(7,this)'>POWER</button><button class='map-room load-room' onclick='camera(8,this)'>LOADING</button><div class='map-label'>BLACKSITE-01 // LEVEL 01</div></div><h3>OFFICE SYSTEMS</h3><button onclick='toggleDoor(0)'>LEFT DOOR</button><button onclick='toggleDoor(1)'>RIGHT DOOR</button><button onclick='light(0)'>LEFT LIGHT</button><button onclick='light(1)'>RIGHT LIGHT</button><div class='dim'>POWER <span id='ptext'>100%</span></div><div class='meter'><div id='power' class='fill'></div></div><div class='dim'>TIME <span id='clock'>11:00</span></div><div class='help'>Survive the shift. Watch the cameras. Don't let Nordic reach the office.</div></aside><section class='office'><div id='alert' class='alert'></div><div class='screen'><div class='scan'></div><div class='door leftdoor' id='ld'></div><div class='door rightdoor' id='rd'></div><div class='window leftwin'></div><div class='window rightwin'></div><div class='monitor'><div id='camtext' class='camtext'><b class='cyan'>OFFICE MONITOR</b><br>SYSTEM READY<br><br>Night shift initialized.</div></div><div id='nordic' class='nordic'><div class='nhead'><i class='eye e1'></i><i class='eye e2'></i></div><div class='nbody'></div><div class='legs'><span class='leg'></span><span class='leg'></span></div></div><div id='hallJunction' class='hall-junction'><div class='hall-label left'>LEFT ROUTE</div><div class='hall-label right'>RIGHT ROUTE</div><div class='hall-path left'></div><div class='hall-path right'></div><div class='hall-center'></div><div id='hallSubject' class='hall-subject left'></div><div class='hall-office'>SECURITY OFFICE</div></div><div class='desk'></div></div><div id='log' class='log'></div></section></main></div><script>
+var power=100,mins=0,doors=[false,false],lights=[false,false],pos=0,shift=0,cam=0,lastDetectedCam=0,hallSide='left',timer=null;
+var logEl=document.getElementById('log');
+function byId(id){return document.getElementById(id)}
+function log(s){if(!logEl)return;logEl.innerHTML+='<div>&gt; '+s+'</div>';logEl.scrollTop=logEl.scrollHeight}
+var audioCtx=null;
+function unlockAudio(){try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;audioCtx=audioCtx||new AC();if(audioCtx.state==='suspended'){var r=audioCtx.resume();if(r&&r.catch)r.catch(function(){})}}catch(e){}}
+function tone(type,f1,f2,dur,vol){try{unlockAudio();if(!audioCtx||audioCtx.state!=='running')return;var now=audioCtx.currentTime,osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=type;osc.frequency.setValueAtTime(f1,now);osc.frequency.exponentialRampToValueAtTime(Math.max(1,f2),now+dur*.7);gain.gain.setValueAtTime(0.0001,now);gain.gain.exponentialRampToValueAtTime(vol,now+Math.min(.05,dur*.15));gain.gain.exponentialRampToValueAtTime(0.0001,now+dur);osc.connect(gain);gain.connect(audioCtx.destination);osc.start(now);osc.stop(now+dur+.02)}catch(e){}}
+function nordicCue(){tone('sine',72,48,.68,.035);setTimeout(function(){tone('triangle',118,78,.52,.015)},20)}
+function setPower(){power=Math.max(0,power);byId('power').style.width=power+'%';byId('ptext').textContent=Math.round(power)+'%'}
+function updateHallJunction(){var j=byId('hallJunction'),sub=byId('hallSubject');if(!j||!sub)return;if(pos===1){j.className='hall-junction show';sub.className='hall-subject '+hallSide}else{j.className='hall-junction';sub.className='hall-subject '+hallSide}}
+function camera(n,b){
+ cam=n;tone('square',1250,780,.10,.018);
+ var buttons=document.querySelectorAll('button'),i;for(i=0;i<buttons.length;i++)buttons[i].classList.remove('active');if(b&&b.classList)b.classList.add('active');
+ var a=[['HALL A','STABLE','NO MOTION','The main corridor is empty.'],['STORAGE','DEGRADED','MOTION: 1','A shelf has been disturbed.'],['SERVER','STABLE','MOTION: NONE','One terminal is awake.'],['LAB','UNSTABLE','MOTION: UNKNOWN','The room appears empty.'],['ARCHIVE','STABLE','MOTION: 0','Archive rows are visible between the lights.'],['MAINT','DEGRADED','AUDIO: LOW','A service corridor leads deeper into the facility.'],['GENERATOR','STABLE','POWER: NOMINAL','Cooling fans are running below the floor.'],['LOADING','UNSTABLE','SIGNAL: WEAK','The loading corridor disappears into darkness.']][n-1];
+ if(!a)return;
+ var here=pos===n,motion=here?'MOTION: PRESENT':a[2],desc=here?'CAMERA TRACKING: SUBJECT PRESENT.':a[3];
+ byId('camtext').innerHTML='<b class="cyan">CAM-0'+n+' // '+a[0]+'</b><br>SIGNAL: '+a[1]+'<br>'+motion+'<br><br><span class="dim">'+desc+'</span>';
+ byId('nordic').style.display=here?'block':'none';
+ if(here&&lastDetectedCam!==n)lastDetectedCam=n;else if(!here&&lastDetectedCam===n)lastDetectedCam=0;
+ updateHallJunction();
+}
+function toggleDoor(i){doors[i]=!doors[i];byId(i?'rd':'ld').classList.toggle('closed',doors[i]);power-=doors[i]?2:1;setPower();log((i?'RIGHT':'LEFT')+' DOOR '+(doors[i]?'CLOSED':'OPEN'))}
+function light(i){lights[i]=!lights[i];power-=lights[i]?2:1;setPower();log((i?'RIGHT':'LEFT')+' LIGHT '+(lights[i]?'ON':'OFF'))}
+function event(){
+ var route=[4,5,6,7,8,3,2,1],oldPos=pos,i;
+ if(pos===0)pos=route[0];else{i=route.indexOf?route.indexOf(pos):-1;if(i>=0&&i<route.length-1)pos=route[i+1]}
+ if(pos!==oldPos){if(pos===1)hallSide=Math.random()<.5?'left':'right';nordicCue();updateHallJunction()}
+ if(pos===2){byId('alert').style.display='block';byId('alert').textContent='WARNING // MOVEMENT NEAR SECURITY OFFICE'}else if(pos===1){byId('status').className='red'}
+ if(cam)camera(cam,document.querySelectorAll('button')[cam-1])
+}
+function tick(){
+ shift++;var total=Math.min(420,shift),gameMinutes=Math.floor(total/60),seconds=total%60,h=(11+gameMinutes)%24,m=seconds,displayHour=h%12||12,ampm=h<12?'AM':'PM';
+ var timeText=(displayHour<10?'0':'')+displayHour+':'+(m<10?'0':'')+m+' '+ampm;byId('clock').textContent=timeText;byId('status').textContent='SHIFT 01 // '+timeText;
+ power-=.15+(doors[0]?0.08:0)+(doors[1]?0.08:0)+(lights[0]?0.08:0)+(lights[1]?0.08:0);setPower();
+ if(shift%12===0&&Math.random()<.65)event();
+ if(shift>=420){byId('clock').textContent='06:00 AM';log('06:00 — SHIFT COMPLETE. BLACKSITE-01 SURVIVED.');if(timer)clearInterval(timer)}
+ if(power<=0){log('POWER FAILURE. THE OFFICE IS DARK.');if(timer)clearInterval(timer)}
+}
+function bindAudio(){unlockAudio()}
+var allButtons=document.querySelectorAll('button');for(var bi=0;bi<allButtons.length;bi++){allButtons[bi].addEventListener('click',bindAudio);if(window.PointerEvent)allButtons[bi].addEventListener('pointerdown',bindAudio);}
+if(document.body.addEventListener)document.body.addEventListener('click',bindAudio);
+updateHallJunction();setPower();log('BLACKSITE-01: night shift initialized.');log('Objective: survive until 06:00.');timer=setInterval(tick,1000);
+</script></body></html>
