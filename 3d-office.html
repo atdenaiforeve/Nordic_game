@@ -35,7 +35,7 @@ button:active{transform:translateY(1px);background:#253039}
   <div class="controls">
     <button id="leftDoor">LEFT DOOR</button><button id="rightDoor">RIGHT DOOR</button>
     <button id="leftLight">LEFT LIGHT</button><button id="rightLight">RIGHT LIGHT</button>
-    <button id="camera">CAMERA</button><button id="reboot">REBOOT</button>
+    <button id="flashlight">FLASHLIGHT</button><button id="camera">CAMERA</button><button id="reboot">REBOOT</button>
   </div>
   <div class="log panel" id="log">SYSTEM READY</div>
 </div>
@@ -64,6 +64,7 @@ function startThree(){
     scene.fog=new THREE.Fog(0x090c0e,10,30);
     const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.05,60);
     camera.position.set(0,2.15,7.4);
+    scene.add(camera);
     const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});
     renderer.setPixelRatio(Math.min(devicePixelRatio,1.25));
     renderer.setSize(innerWidth,innerHeight,false);
@@ -71,7 +72,7 @@ function startThree(){
     renderer.shadowMap.type=THREE.PCFSoftShadowMap;
     game.appendChild(renderer.domElement);
 
-    const mats={wall:new THREE.MeshStandardMaterial({color:0x252c30,roughness:.9}),floor:new THREE.MeshStandardMaterial({color:0x171b1d,roughness:.86}),trim:new THREE.MeshStandardMaterial({color:0x384146,roughness:.65}),dark:new THREE.MeshStandardMaterial({color:0x0d1012,roughness:.8}),metal:new THREE.MeshStandardMaterial({color:0x59656b,metalness:.6,roughness:.4}),desk:new THREE.MeshStandardMaterial({color:0x20272a,roughness:.7}),screen:new THREE.MeshStandardMaterial({color:0x10252b,emissive:0x0b4654,emissiveIntensity:1.6,roughness:.35})};
+    const mats={wall:new THREE.MeshStandardMaterial({color:0x252c30,roughness:.9}),floor:new THREE.MeshStandardMaterial({color:0x171b1d,roughness:.86}),trim:new THREE.MeshStandardMaterial({color:0x384146,roughness:.65}),dark:new THREE.MeshStandardMaterial({color:0x0d1012,roughness:.8}),metal:new THREE.MeshStandardMaterial({color:0x59656b,metalness:.6,roughness:.4}),desk:new THREE.MeshStandardMaterial({color:0x20272a,roughness:.7}),screen:new THREE.MeshStandardMaterial({color:0x10252b,emissive:0x0b4654,emissiveIntensity:1.15,roughness:.35})};
     function box(w,h,d,x,y,z,mat,cast=true,receive=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=cast;m.receiveShadow=receive;scene.add(m);return m}
     box(16,6,.35,0,3,-4.5,mats.wall); box(.35,6,9,-8,3,0,mats.wall); box(.35,6,9,8,3,0,mats.wall); box(16,.25,9,0,.05,0,mats.floor,false,true); box(16,.2,9,0,6.05,0,mats.dark,false,false);
     for(let x=-6;x<=6;x+=2)box(.045,5.7,.12,x,3,-4.29,mats.trim,false,true);
@@ -83,19 +84,36 @@ function startThree(){
     box(1.7,.08,.8,0,1.94,2.25,mats.dark);box(.9,.08,.42,0,1.98,2.2,mats.trim);
     box(2.2,.08,1.1,0,.85,4.4,mats.dark);box(.7,.9,.7,0,1.25,4.4,mats.metal);
     for(const x of [-3.5,-1.2,1.2,3.5]){const lamp=new THREE.Mesh(new THREE.BoxGeometry(1.4,.08,.25),mats.metal);lamp.position.set(x,5.75,-.8);scene.add(lamp)}
-    const amb=new THREE.AmbientLight(0x718087,.38);scene.add(amb);
-    const key=new THREE.PointLight(0xd7e4e8,3.2,16);key.position.set(0,5,2);key.castShadow=true;key.shadow.mapSize.set(256,256);scene.add(key);
-    const left=new THREE.PointLight(0x8db4c0,1.4,9);left.position.set(-6,3,0);scene.add(left);
-    const right=new THREE.PointLight(0x8db4c0,1.4,9);right.position.set(6,3,0);scene.add(right);
-    const glow1=new THREE.PointLight(0x168fa8,1.1,5);glow1.position.set(-1.45,2.5,1.1);scene.add(glow1);
-    const glow2=new THREE.PointLight(0x168fa8,1.1,5);glow2.position.set(1.45,2.5,1.1);scene.add(glow2);
+
+    // Deliberately dim room lighting: the office is dark enough that the flashlight matters.
+    const amb=new THREE.AmbientLight(0x667177,.13);scene.add(amb);
+    const key=new THREE.PointLight(0xd7e4e8,.85,16);key.position.set(0,5,2);key.castShadow=true;key.shadow.mapSize.set(256,256);scene.add(key);
+    const left=new THREE.PointLight(0x8db4c0,.38,9);left.position.set(-6,3,0);scene.add(left);
+    const right=new THREE.PointLight(0x8db4c0,.38,9);right.position.set(6,3,0);scene.add(right);
+    const glow1=new THREE.PointLight(0x168fa8,.65,5);glow1.position.set(-1.45,2.5,1.1);scene.add(glow1);
+    const glow2=new THREE.PointLight(0x168fa8,.65,5);glow2.position.set(1.45,2.5,1.1);scene.add(glow2);
+
+    // Player flashlight: narrow, dimmed beam attached to the camera.
+    let flashlightOn=true;
+    const flashlight=new THREE.SpotLight(0xeaf7ff,4.2,18,Math.PI/7,.52,1.4);
+    flashlight.position.set(0,0,0);
+    flashlight.castShadow=true;
+    flashlight.shadow.mapSize.set(256,256);
+    camera.add(flashlight);
+    const flashlightTarget=new THREE.Object3D();
+    flashlightTarget.position.set(0,0,-10);
+    camera.add(flashlightTarget);
+    flashlight.target=flashlightTarget;
 
     let power=100,seconds=0,doors={L:false,R:false},cam=0;
     const log=document.getElementById('log');
     const addLog=t=>{log.textContent=t+'\n'+log.textContent.slice(0,260)};
     function toggleDoor(side){doors[side]=!doors[side];addLog(side+' DOOR '+(doors[side]?'CLOSED':'OPEN'))}
     function lightDoor(side){addLog(side+' DOOR LIGHT CHECK')}
-    document.getElementById('leftDoor').onclick=()=>toggleDoor('L');document.getElementById('rightDoor').onclick=()=>toggleDoor('R');document.getElementById('leftLight').onclick=()=>lightDoor('L');document.getElementById('rightLight').onclick=()=>lightDoor('R');document.getElementById('camera').onclick=()=>{cam=(cam+1)%4;addLog(['HALL A','HALL B','JUNCTION','STORAGE'][cam])};document.getElementById('reboot').onclick=()=>{power=Math.max(0,power-2);addLog('SYSTEM REBOOT')};
+    document.getElementById('leftDoor').onclick=()=>toggleDoor('L');document.getElementById('rightDoor').onclick=()=>toggleDoor('R');document.getElementById('leftLight').onclick=()=>lightDoor('L');document.getElementById('rightLight').onclick=()=>lightDoor('R');
+    document.getElementById('flashlight').onclick=()=>{flashlightOn=!flashlightOn;flashlight.intensity=flashlightOn?4.2:0;addLog('FLASHLIGHT '+(flashlightOn?'ON':'OFF'))};
+    document.getElementById('camera').onclick=()=>{cam=(cam+1)%4;addLog(['HALL A','HALL B','JUNCTION','STORAGE'][cam])};
+    document.getElementById('reboot').onclick=()=>{power=Math.max(0,power-2);addLog('SYSTEM REBOOT')};
     let dragging=false,lastX=0,lastY=0,yaw=0,pitch=0;
     addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging)return;yaw-=(e.clientX-lastX)*.003;pitch-=(e.clientY-lastY)*.002;pitch=Math.max(-.5,Math.min(.45,pitch));lastX=e.clientX;lastY=e.clientY});
     addEventListener('wheel',e=>{camera.position.z=Math.max(4.5,Math.min(8,camera.position.z+e.deltaY*.004))},{passive:true});
