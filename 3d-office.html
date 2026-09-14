@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>NORDIC // 3D SECURITY OFFICE</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080a0b;font-family:Arial,Helvetica,sans-serif;color:#d8e1e8}#game{position:fixed;inset:0}canvas{display:block}.hud{position:fixed;inset:0;pointer-events:none}.top{position:absolute;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;font:12px monospace;text-shadow:0 2px 4px #000}.objective{position:absolute;top:46px;left:50%;transform:translateX(-50%);background:#11171add;border:1px solid #59666b;padding:8px 12px;border-radius:4px;font:11px monospace}.controls{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:auto}.controls button{background:#1b2428dd;border:1px solid #59666b;color:#d5dfe2;padding:9px 12px;border-radius:4px;font:11px monospace}.controls button:active{transform:translateY(1px)}.hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font:9px monospace;color:#9aa5a9}.log{position:absolute;left:12px;bottom:16px;font:10px monospace;color:#a4afb3;text-shadow:0 2px 4px #000}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#080a0bee;font:13px monospace;z-index:5}.loading small{display:block;margin-top:8px;font-size:9px;color:#8f9ba0}.hidden{display:none}.crosshair{position:absolute;left:50%;top:50%;width:4px;height:4px;border:1px solid #cfe8ee55;border-radius:50%;transform:translate(-50%,-50%)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080a0b;font-family:Arial,Helvetica,sans-serif;color:#d8e1e8}#game{position:fixed;inset:0}canvas{display:block}.hud{position:fixed;inset:0;pointer-events:none}.top{position:absolute;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;font:12px monospace;text-shadow:0 2px 4px #000}.objective{position:absolute;top:46px;left:50%;transform:translateX(-50%);background:#11171add;border:1px solid #59666b;padding:8px 12px;border-radius:4px;font:11px monospace}.controls{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;pointer-events:auto}.controls button{background:#1b2428dd;border:1px solid #59666b;color:#d5dfe2;padding:9px 12px;border-radius:4px;font:11px monospace}.controls button:active{transform:translateY(1px)}.hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font:9px monospace;color:#9aa5a9}.log{position:absolute;left:12px;bottom:16px;font:10px monospace;color:#a4afb3;text-shadow:0 2px 4px #000}.loading{position:absolute;inset:0;display:grid;place-items:center;background:#080a0bee;font:13px monospace;z-index:5;text-align:center}.loading small{display:block;margin-top:8px;font-size:9px;color:#8f9ba0;max-width:85vw}.hidden{display:none}.crosshair{position:absolute;left:50%;top:50%;width:4px;height:4px;border:1px solid #cfe8ee55;border-radius:50%;transform:translate(-50%,-50%)}
 @media(max-width:600px){.top{font-size:9px}.objective{font-size:9px;max-width:90vw;text-align:center}.controls button{padding:8px 9px;font-size:9px}.hint{font-size:8px}}
 </style>
 </head>
 <body>
 <div id="game"></div>
-<div class="loading" id="loading">BUILDING NORDIC SECURITY OFFICE...<small id="loadStatus">Starting 3D engine...</small></div>
+<div class="loading" id="loading">STARTING NORDIC SECURITY OFFICE...<small id="loadStatus">Connecting to 3D engine...</small></div>
 <div class="hud">
  <div class="top"><span>NORDIC // BLACKSITE-01</span><span id="clock">11:00 PM</span><span>POWER <b id="power">100%</b></span></div>
  <div class="objective">OBJECTIVE: Monitor the halls and survive until 6:00 AM.</div>
@@ -24,7 +24,7 @@
 const loading=document.getElementById('loading'),loadStatus=document.getElementById('loadStatus');
 function fail(message){loading.innerHTML='NORDIC 3D ENGINE FAILED<small>'+message+'</small>';}
 function startThree(){
- if(!window.THREE){fail('Three.js did not load. Check your connection and reload.');return;}
+ if(!window.THREE){fail('The 3D library loaded incorrectly. Reload the page.');return;}
  try{
  const scene=new THREE.Scene();scene.background=new THREE.Color(0x090c0d);scene.fog=new THREE.Fog(0x090c0d,10,28);
  const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.05,60);camera.position.set(0,2.15,7.4);camera.rotation.order='YXZ';
@@ -54,8 +54,8 @@ function startThree(){
  }catch(err){fail('Startup error: '+(err&&err.message?err.message:'unknown error'));}
 }
 loadStatus.textContent='Loading 3D engine...';
-const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js';script.onload=startThree;script.onerror=()=>fail('Could not load the 3D engine. Reload and try again.');document.head.appendChild(script);
-setTimeout(()=>{if(!loading.classList.contains('hidden')&&loadStatus)loadStatus.textContent='Still loading the 3D engine...';},2500);
+const script=document.createElement('script');script.src='https://unpkg.com/three@0.180.0/build/three.min.js';script.onload=startThree;script.onerror=()=>fail('Could not load the 3D engine. The CDN connection failed. Try reloading or another network.');document.head.appendChild(script);
+setTimeout(()=>{if(!loading.classList.contains('hidden')&&loadStatus)loadStatus.textContent='Still connecting to the 3D engine...';},2500);
 </script>
 </body>
 </html>
