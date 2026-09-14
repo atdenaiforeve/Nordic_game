@@ -11,8 +11,8 @@ body{display:grid;place-items:center}
 .title{font-size:30px;letter-spacing:5px;margin-bottom:5px}.sub{color:#7f8a90;font-size:10px;margin-bottom:24px}
 .section{font-size:9px;color:#6e7a80;letter-spacing:2px;margin:14px 0 8px;text-align:left}
 .nights{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:10px 0 18px}
-.night{padding:14px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace;cursor:pointer}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0;box-shadow:0 0 14px #1ec9d322}
-.start,.tutorialBtn{width:100%;padding:14px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace;cursor:pointer}.start:active,.tutorialBtn:active{background:#293438}
+.night{padding:14px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace;cursor:pointer}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0;box-shadow:0 0 14px #1ec9d322}.night.locked{color:#4f595e;border-color:#252c2f;background:#0b0e0f;cursor:not-allowed;opacity:.72}
+.start,.tutorialBtn{width:100%;padding:14px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace;cursor:pointer}.start:active,.tutorialBtn:active{background:#293438}.start:disabled{opacity:.45;cursor:not-allowed}
 .tutorialBtn{margin-top:8px;background:#0d1113;color:#aab5b9;font-size:10px;padding:11px}
 .status{margin-top:13px;color:#6c797e;font-size:8px}.hint{margin-top:7px;color:#505b60;font-size:8px}
 .tutorial{position:fixed;inset:0;background:#030506;z-index:20;display:none;align-items:center;justify-content:center;overflow:hidden}.tutorial.show{display:flex}
@@ -33,7 +33,7 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0;visibility:hidden;
   <button class="start" id="start">ENTER SECURITY CONTROL</button>
   <button class="tutorialBtn" id="redoTutorial">REVIEW TUTORIAL</button>
   <div class="status" id="loadStatus">FACILITY PRELOAD: INITIALIZING</div>
-  <div class="hint">The selected night determines your clearance level and starting position.</div>
+  <div class="hint" id="hint">Night 1 is available. Complete a night to unlock the next clearance level.</div>
 </main>
 
 <div class="tutorial" id="tutorial">
@@ -55,16 +55,41 @@ const start=document.getElementById('start');
 const menu=document.getElementById('menu');
 const game=document.getElementById('game');
 const loadStatus=document.getElementById('loadStatus');
-let selected=Math.max(1,Math.min(5,Number(sessionStorage.getItem('nordicNight')||1)));
-for(let i=1;i<=5;i++){
-  const b=document.createElement('button');
-  b.className='night'+(i===selected?' active':'');
-  b.textContent='NIGHT '+i;
-  b.onclick=()=>{selected=i;document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));b.classList.add('active');sessionStorage.setItem('nordicNight',String(i));};
-  nights.appendChild(b);
-}
+const hint=document.getElementById('hint');
 
-// Client-side device/browser state. This is deliberately only for tutorial state for now;
+// Persistent device/browser progression, matching the tutorial's localStorage approach.
+// Only the highest unlocked night is stored. No map data or game assets are stored here.
+let unlockedNight=1;
+try{
+  const saved=Number(localStorage.getItem('nordicNightUnlocked')||1);
+  unlockedNight=Math.max(1,Math.min(5,Number.isFinite(saved)?saved:1));
+}catch(e){}
+
+let selected=Math.max(1,Math.min(unlockedNight,Number(sessionStorage.getItem('nordicNight')||1)));
+
+function renderNights(){
+  nights.innerHTML='';
+  for(let i=1;i<=5;i++){
+    const b=document.createElement('button');
+    const locked=i>unlockedNight;
+    b.className='night'+(i===selected&&!locked?' active':'')+(locked?' locked':'');
+    b.textContent=locked?'NIGHT '+i+' 🔒':'NIGHT '+i;
+    b.setAttribute('aria-label',locked?'Night '+i+' locked':'Night '+i+' unlocked');
+    if(!locked){
+      b.onclick=()=>{
+        selected=i;
+        document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        sessionStorage.setItem('nordicNight',String(i));
+        hint.textContent='Night '+i+' selected. Clearance level '+i+'.';
+      };
+    }
+    nights.appendChild(b);
+  }
+}
+renderNights();
+
+// Client-side device/browser state. This is deliberately only for tutorial and progression state;
 // maps and game assets are NOT stored here.
 game.onload=()=>{loadStatus.textContent='FACILITY PRELOAD: READY';game.dataset.ready='1'};
 game.onerror=()=>{loadStatus.textContent='FACILITY PRELOAD: FAILED — RETRY ON ENTRY'};
@@ -94,6 +119,7 @@ let seen=false;try{seen=localStorage.getItem('nordicTutorialSeen')==='1'}catch(e
 if(!seen){menu.style.display='none';setTimeout(runTutorial,450)}
 
 start.onclick=()=>{
+  if(selected>unlockedNight)return;
   sessionStorage.setItem('nordicNight',String(selected));
   menu.style.display='none';
   game.style.visibility='visible';
