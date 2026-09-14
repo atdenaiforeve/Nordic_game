@@ -5,23 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>NORDIC // BLACKSITE-01</title>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#d9dfe3;font-family:monospace}
-body{display:grid;place-items:center}
-.menu{width:min(560px,calc(100% - 32px));padding:30px 24px;background:linear-gradient(145deg,#151a1c,#080a0b);border:1px solid #465157;box-shadow:0 18px 70px #000c;text-align:center;position:relative;z-index:5}
-.title{font-size:30px;letter-spacing:5px;margin-bottom:5px}.sub{color:#7f8a90;font-size:10px;margin-bottom:24px}
-.section{font-size:9px;color:#6e7a80;letter-spacing:2px;margin:14px 0 8px;text-align:left}
-.nights{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:10px 0 18px}
-.night{padding:14px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace;cursor:pointer}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0;box-shadow:0 0 14px #1ec9d322}.night.locked{color:#4f595e;border-color:#252c2f;background:#0b0e0f;cursor:not-allowed;opacity:.72}
-.start,.tutorialBtn{width:100%;padding:14px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace;cursor:pointer}.start:active,.tutorialBtn:active{background:#293438}.start:disabled{opacity:.45;cursor:not-allowed}
-.tutorialBtn{margin-top:8px;background:#0d1113;color:#aab5b9;font-size:10px;padding:11px}
-.status{margin-top:13px;color:#6c797e;font-size:8px}.hint{margin-top:7px;color:#505b60;font-size:8px}
-.tutorial{position:fixed;inset:0;background:#030506;z-index:20;display:none;align-items:center;justify-content:center;overflow:hidden}.tutorial.show{display:flex}
-.tutorial:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#fff1 4px);pointer-events:none;opacity:.28}
-.tutorial:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,#0009 100%);pointer-events:none}
-.slide{width:min(650px,calc(100% - 42px));min-height:280px;padding:30px;box-sizing:border-box;border:1px solid #374247;background:linear-gradient(145deg,#111719,#07090a);box-shadow:0 20px 80px #000;position:relative;text-align:left}
-.kicker{font-size:9px;color:#45d9e4;letter-spacing:3px;margin-bottom:16px}.slide h1{font-size:24px;letter-spacing:3px;margin:0 0 15px}.slide p{font:13px/1.7 monospace;color:#b9c3c7;max-width:560px}.progress{position:absolute;left:30px;right:30px;bottom:22px;height:3px;background:#20272a}.progress i{display:block;height:100%;width:0;background:#42d8e3}.counter{position:absolute;right:30px;top:28px;color:#68757a;font-size:9px}.skip{position:absolute;right:18px;bottom:14px;background:none;border:0;color:#566267;font:9px monospace;z-index:3;cursor:pointer}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#d9dfe3;font-family:monospace}body{display:grid;place-items:center}
+.menu{width:min(560px,calc(100% - 32px));padding:30px 24px;background:linear-gradient(145deg,#151a1c,#080a0b);border:1px solid #465157;box-shadow:0 18px 70px #000c;text-align:center;position:relative;z-index:5}.title{font-size:30px;letter-spacing:5px;margin-bottom:5px}.sub{color:#7f8a90;font-size:10px;margin-bottom:24px}.section{font-size:9px;color:#6e7a80;letter-spacing:2px;margin:14px 0 8px;text-align:left}.nights{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:10px 0 18px}.night{padding:14px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace;cursor:pointer}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0;box-shadow:0 0 14px #1ec9d322}.night.locked{color:#505a5f;border-color:#252c30;background:#0d1012;cursor:not-allowed}.start,.tutorialBtn{width:100%;padding:14px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace;cursor:pointer}.start:active,.tutorialBtn:active{background:#293438}.tutorialBtn{margin-top:8px;background:#0d1113;color:#aab5b9;font-size:10px;padding:11px}.status{margin-top:13px;color:#6c797e;font-size:8px}.hint{margin-top:7px;color:#505b60;font-size:8px}
+.tutorial{position:fixed;inset:0;background:#030506;z-index:20;display:none;align-items:center;justify-content:center;overflow:hidden}.tutorial.show{display:flex}.tutorial:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#fff1 4px);pointer-events:none;opacity:.28}.tutorial:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,#0009 100%);pointer-events:none}.slide{width:min(650px,calc(100% - 42px));min-height:280px;padding:30px;box-sizing:border-box;border:1px solid #374247;background:linear-gradient(145deg,#111719,#07090a);box-shadow:0 20px 80px #000;position:relative;text-align:left}.kicker{font-size:9px;color:#45d9e4;letter-spacing:3px;margin-bottom:16px}.slide h1{font-size:24px;letter-spacing:3px;margin:0 0 15px}.slide p{font:13px/1.7 monospace;color:#b9c3c7;max-width:560px}.progress{position:absolute;left:30px;right:30px;bottom:22px;height:3px;background:#20272a}.progress i{display:block;height:100%;width:0;background:#42d8e3}.counter{position:absolute;right:30px;top:28px;color:#68757a;font-size:9px}.skip{position:absolute;right:18px;bottom:14px;background:none;border:0;color:#566267;font:9px monospace;z-index:3;cursor:pointer}
+.complete{position:fixed;inset:0;background:#020303f2;z-index:40;display:none;align-items:center;justify-content:center;text-align:center}.complete.show{display:flex}.completeBox{width:min(620px,calc(100% - 42px));padding:38px 26px;border:1px solid #4b565b;background:linear-gradient(145deg,#111719,#060809);box-shadow:0 20px 90px #000}.completeKicker{font-size:10px;color:#55dfe8;letter-spacing:4px;margin-bottom:16px}.complete h1{font-size:30px;letter-spacing:5px;margin:0 0 12px;color:#e6edef}.completeTime{font-size:15px;color:#79e9ef;margin-bottom:22px}.completeText{font-size:11px;line-height:1.8;color:#aeb9bd}.complete button{margin-top:24px;width:100%;padding:13px;background:#132326;color:#dffeff;border:1px solid #4c666b;font:bold 11px monospace;cursor:pointer}.complete button:active{background:#20383c}
 iframe{position:fixed;inset:0;width:100%;height:100%;border:0;visibility:hidden;pointer-events:none}
-@media(max-width:500px){.menu{padding:23px 16px}.title{font-size:23px}.nights{grid-template-columns:repeat(3,1fr)}.slide{padding:23px;min-height:300px}.slide h1{font-size:19px}.slide p{font-size:11px}}
+@media(max-width:500px){.menu{padding:23px 16px}.title{font-size:23px}.nights{grid-template-columns:repeat(3,1fr)}.slide{padding:23px;min-height:300px}.slide h1{font-size:19px}.slide p{font-size:11px}.complete h1{font-size:23px}}
 </style>
 </head>
 <body>
@@ -33,98 +22,32 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0;visibility:hidden;
   <button class="start" id="start">ENTER SECURITY CONTROL</button>
   <button class="tutorialBtn" id="redoTutorial">REVIEW TUTORIAL</button>
   <div class="status" id="loadStatus">FACILITY PRELOAD: INITIALIZING</div>
-  <div class="hint" id="hint">Night 1 is available. Complete a night to unlock the next clearance level.</div>
+  <div class="hint">The selected night determines your clearance level and starting position.</div>
 </main>
 
-<div class="tutorial" id="tutorial">
-  <div class="slide">
-    <div class="counter" id="counter">01 / 05</div>
-    <div class="kicker" id="kicker">BLACKSITE-01 // ORIENTATION</div>
-    <h1 id="tTitle">WELCOME, SECURITY</h1>
-    <p id="tText">You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.</p>
-    <div class="progress"><i id="progress"></i></div>
-  </div>
-  <button class="skip" id="skip">SKIP TUTORIAL</button>
-</div>
+<div class="tutorial" id="tutorial"><div class="slide"><div class="counter" id="counter">01 / 05</div><div class="kicker" id="kicker">BLACKSITE-01 // ORIENTATION</div><h1 id="tTitle">WELCOME, SECURITY</h1><p id="tText">You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.</p><div class="progress"><i id="progress"></i></div></div><button class="skip" id="skip">SKIP TUTORIAL</button></div>
+
+<div class="complete" id="complete"><div class="completeBox"><div class="completeKicker">BLACKSITE-01 // SHIFT REPORT</div><h1>NIGHT 1 COMPLETE</h1><div class="completeTime">06:00 AM — SHIFT ENDED</div><div class="completeText">Your security shift is complete.<br>Night 2 clearance has been authorized.<br><br>Return to the control menu to continue.</div><button id="returnMenu">RETURN TO MENU</button></div></div>
 
 <iframe id="game" title="NORDIC BLACKSITE-01"></iframe>
-
 <script>
-const nights=document.getElementById('nights');
-const start=document.getElementById('start');
-const menu=document.getElementById('menu');
-const game=document.getElementById('game');
-const loadStatus=document.getElementById('loadStatus');
-const hint=document.getElementById('hint');
-
-// Persistent device/browser progression, matching the tutorial's localStorage approach.
-// Only the highest unlocked night is stored. No map data or game assets are stored here.
-let unlockedNight=1;
-try{
-  const saved=Number(localStorage.getItem('nordicNightUnlocked')||1);
-  unlockedNight=Math.max(1,Math.min(5,Number.isFinite(saved)?saved:1));
-}catch(e){}
-
-let selected=Math.max(1,Math.min(unlockedNight,Number(sessionStorage.getItem('nordicNight')||1)));
-
-function renderNights(){
-  nights.innerHTML='';
-  for(let i=1;i<=5;i++){
-    const b=document.createElement('button');
-    const locked=i>unlockedNight;
-    b.className='night'+(i===selected&&!locked?' active':'')+(locked?' locked':'');
-    b.textContent=locked?'NIGHT '+i+' 🔒':'NIGHT '+i;
-    b.setAttribute('aria-label',locked?'Night '+i+' locked':'Night '+i+' unlocked');
-    if(!locked){
-      b.onclick=()=>{
-        selected=i;
-        document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));
-        b.classList.add('active');
-        sessionStorage.setItem('nordicNight',String(i));
-        hint.textContent='Night '+i+' selected. Clearance level '+i+'.';
-      };
-    }
-    nights.appendChild(b);
-  }
-}
-renderNights();
-
-// Client-side device/browser state. This is deliberately only for tutorial and progression state;
-// maps and game assets are NOT stored here.
-game.onload=()=>{loadStatus.textContent='FACILITY PRELOAD: READY';game.dataset.ready='1'};
-game.onerror=()=>{loadStatus.textContent='FACILITY PRELOAD: FAILED — RETRY ON ENTRY'};
-game.src='facility.html';
-
-const slides=[
- ['BLACKSITE-01 // ORIENTATION','WELCOME, SECURITY','You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.'],
- ['BLACKSITE-01 // MOVEMENT','THE FACILITY IS PHYSICAL','This is a real facility, not a collection of separate screens. Corridors and rooms have physical positions. Future encounters can move through the same world.'],
- ['BLACKSITE-01 // SECURITY','WATCH YOUR MONITORS','Use the security systems to check areas of the facility. Doors, lights, cameras and other controls are part of your security station.'],
- ['BLACKSITE-01 // NORDIC','NORDIC IS SOMEWHERE INSIDE','You are not selecting Nordic from a menu. Nordic exists in the facility world. As the nights progress, his behaviour and access to the blacksite will become more dangerous.'],
- ['BLACKSITE-01 // CLEARANCE','NIGHT = CLEARANCE LEVEL','Each night represents a higher clearance level. New areas and systems can be added to the same blacksite as the game expands. Survive your shift.']
-];
-let tutorialTimer=null,slideStart=0,slideIndex=0;
-const tutorial=document.getElementById('tutorial'),tTitle=document.getElementById('tTitle'),tText=document.getElementById('tText'),kicker=document.getElementById('kicker'),counter=document.getElementById('counter'),progress=document.getElementById('progress');
-function showSlide(i){
-  slideIndex=i;const s=slides[i];kicker.textContent=s[0];tTitle.textContent=s[1];tText.textContent=s[2];counter.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');progress.style.width='0%';slideStart=performance.now();
-  cancelAnimationFrame(tutorialTimer);
-  function tick(now){const pct=Math.min(100,(now-slideStart)/4300*100);progress.style.width=pct+'%';if(pct<100){tutorialTimer=requestAnimationFrame(tick)}else if(slideIndex<slides.length-1){showSlide(slideIndex+1)}else finishTutorial()}
-  tutorialTimer=requestAnimationFrame(tick);
-}
-function finishTutorial(){cancelAnimationFrame(tutorialTimer);try{localStorage.setItem('nordicTutorialSeen','1')}catch(e){}tutorial.classList.remove('show');menu.style.display='grid';}
-function runTutorial(){menu.style.display='none';tutorial.classList.add('show');showSlide(0)}
-document.getElementById('skip').onclick=finishTutorial;
-document.getElementById('redoTutorial').onclick=runTutorial;
-
-let seen=false;try{seen=localStorage.getItem('nordicTutorialSeen')==='1'}catch(e){}
-if(!seen){menu.style.display='none';setTimeout(runTutorial,450)}
-
-start.onclick=()=>{
-  if(selected>unlockedNight)return;
-  sessionStorage.setItem('nordicNight',String(selected));
-  menu.style.display='none';
-  game.style.visibility='visible';
-  game.style.pointerEvents='auto';
-};
+const nights=document.getElementById('nights'),start=document.getElementById('start'),menu=document.getElementById('menu'),game=document.getElementById('game'),loadStatus=document.getElementById('loadStatus'),complete=document.getElementById('complete');
+let unlocked=1;try{unlocked=Math.max(1,Math.min(5,Number(localStorage.getItem('nordicNightUnlocked')||1)))}catch(e){}
+let selected=Math.max(1,Math.min(unlocked,Number(sessionStorage.getItem('nordicNight')||1)));
+function renderNights(){nights.innerHTML='';for(let i=1;i<=5;i++){const b=document.createElement('button');b.className='night'+(i===selected?' active':'')+(i>unlocked?' locked':'');b.textContent=i>unlocked?'NIGHT '+i+' 🔒':'NIGHT '+i;b.disabled=i>unlocked;b.onclick=()=>{if(i>unlocked)return;selected=i;document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));b.classList.add('active');sessionStorage.setItem('nordicNight',String(i))};nights.appendChild(b)}}renderNights();
+function saveUnlock(n){try{const current=Number(localStorage.getItem('nordicNightUnlocked')||1);if(n>current)localStorage.setItem('nordicNightUnlocked',String(Math.min(5,n)));unlocked=Math.max(1,Math.min(5,Number(localStorage.getItem('nordicNightUnlocked')||1)))}catch(e){unlocked=Math.max(unlocked,n)}}
+let facilityReady=false;game.onload=()=>{facilityReady=true;loadStatus.textContent='FACILITY PRELOAD: READY';game.dataset.ready='1'};game.onerror=()=>{loadStatus.textContent='FACILITY PRELOAD: FAILED — RETRY ON ENTRY'};game.src='facility.html';
+const slides=[['BLACKSITE-01 // ORIENTATION','WELCOME, SECURITY','You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.'],['BLACKSITE-01 // MOVEMENT','THE FACILITY IS PHYSICAL','This is a real facility, not a collection of separate screens. Corridors and rooms have physical positions. Future encounters can move through the same world.'],['BLACKSITE-01 // SECURITY','WATCH YOUR MONITORS','Use the security systems to check areas of the facility. Doors, lights, cameras and other controls are part of your security station.'],['BLACKSITE-01 // NORDIC','NORDIC IS SOMEWHERE INSIDE','You are not selecting Nordic from a menu. Nordic exists in the facility world. As the nights progress, his behaviour and access to the blacksite will become more dangerous.'],['BLACKSITE-01 // CLEARANCE','NIGHT = CLEARANCE LEVEL','Each night represents a higher clearance level. New areas and systems can be added to the same blacksite as the game expands. Survive your shift.']];
+let tutorialTimer=null,slideStart=0,slideIndex=0;const tutorial=document.getElementById('tutorial'),tTitle=document.getElementById('tTitle'),tText=document.getElementById('tText'),kicker=document.getElementById('kicker'),counter=document.getElementById('counter'),progress=document.getElementById('progress');
+function showSlide(i){slideIndex=i;const s=slides[i];kicker.textContent=s[0];tTitle.textContent=s[1];tText.textContent=s[2];counter.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');progress.style.width='0%';slideStart=performance.now();cancelAnimationFrame(tutorialTimer);function tick(now){const pct=Math.min(100,(now-slideStart)/4300*100);progress.style.width=pct+'%';if(pct<100)tutorialTimer=requestAnimationFrame(tick);else if(slideIndex<slides.length-1)showSlide(slideIndex+1);else finishTutorial()}tutorialTimer=requestAnimationFrame(tick)}
+function finishTutorial(){cancelAnimationFrame(tutorialTimer);try{localStorage.setItem('nordicTutorialSeen','1')}catch(e){}tutorial.classList.remove('show');menu.style.display='grid'}function runTutorial(){menu.style.display='none';tutorial.classList.add('show');showSlide(0)}document.getElementById('skip').onclick=finishTutorial;document.getElementById('redoTutorial').onclick=runTutorial;
+let seen=false;try{seen=localStorage.getItem('nordicTutorialSeen')==='1'}catch(e){}if(!seen){menu.style.display='none';setTimeout(runTutorial,450)}
+let shiftActive=false,completionTriggered=false,clockPoll=null;function readFacilityClock(){try{const el=game.contentDocument&&game.contentDocument.getElementById('clock');return el?el.textContent.trim():''}catch(e){return ''}}
+function checkForSixAM(){if(!shiftActive||completionTriggered||selected!==1)return;const clock=readFacilityClock();const m=clock.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);if(!m)return;const h=Number(m[1]),min=Number(m[2]),ap=m[3].toUpperCase();if(ap==='AM'&&h===6&&min===0){completeNight1()}}
+function completeNight1(){if(completionTriggered)return;completionTriggered=true;shiftActive=false;clearInterval(clockPoll);saveUnlock(2);complete.classList.add('show')}
+function beginShift(){shiftActive=true;completionTriggered=false;clearInterval(clockPoll);clockPoll=setInterval(checkForSixAM,250);checkForSixAM()}
+start.onclick=()=>{sessionStorage.setItem('nordicNight',String(selected));menu.style.display='none';game.style.visibility='visible';game.style.pointerEvents='auto';beginShift()};
+document.getElementById('returnMenu').onclick=()=>{complete.classList.remove('show');game.style.visibility='hidden';game.style.pointerEvents='none';menu.style.display='grid';unlocked=Math.max(1,Math.min(5,Number(localStorage.getItem('nordicNightUnlocked')||1)));selected=Math.min(selected,unlocked);renderNights()};
 </script>
 </body>
 </html>
