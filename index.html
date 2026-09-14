@@ -1,1 +1,104 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>NORDIC // BLACKSITE-01</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#d9dfe3;font-family:monospace}body{display:grid;place-items:center}.menu{width:min(520px,calc(100% - 32px));padding:28px 22px;background:linear-gradient(145deg,#111619,#080a0b);border:1px solid #454d52;box-shadow:0 18px 60px #000b;text-align:center}.title{font-size:28px;letter-spacing:4px;margin-bottom:5px}.sub{color:#7f8a90;font-size:10px;margin-bottom:25px}.warning{color:#aab3b7;font-size:9px;margin:15px 0}.nights{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:12px 0 18px}.night{padding:13px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0}.start{width:100%;padding:13px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace}.start:active{background:#293438}.hint{margin-top:15px;color:#626d72;font-size:8px}@media(max-width:500px){.menu{padding:22px 15px}.title{font-size:22px}.nights{grid-template-columns:repeat(3,1fr)}}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:none}</style></head><body><main class="menu" id="menu"><div class="title">BLACKSITE-01</div><div class="sub">NORDIC SECURITY FACILITY // NIGHT OPERATIONS</div><div class="warning">FACILITY BUILD: STREAMED MULTI-CHUNK ENVIRONMENT</div><div class="nights" id="nights"></div><button class="start" id="start">ENTER SECURITY CONTROL</button><div class="hint">Night selection is now persistent for this session. More facility sectors can be added without rebuilding the office.</div></main><iframe id="game" title="NORDIC BLACKSITE-01"></iframe><script>const nights=document.getElementById('nights');let selected=1;for(let i=1;i<=5;i++){const b=document.createElement('button');b.className='night'+(i===1?' active':'');b.textContent='NIGHT '+i;b.onclick=()=>{selected=i;document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));b.classList.add('active');sessionStorage.setItem('nordicNight',String(i))};nights.appendChild(b)}selected=Number(sessionStorage.getItem('nordicNight')||1);document.querySelectorAll('.night')[selected-1].classList.add('active');document.getElementById('start').onclick=()=>{sessionStorage.setItem('nordicNight',String(selected));document.getElementById('menu').style.display='none';const f=document.getElementById('game');f.src='facility.html';f.style.display='block'};</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>NORDIC // BLACKSITE-01</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#d9dfe3;font-family:monospace}
+body{display:grid;place-items:center}
+.menu{width:min(560px,calc(100% - 32px));padding:30px 24px;background:linear-gradient(145deg,#151a1c,#080a0b);border:1px solid #465157;box-shadow:0 18px 70px #000c;text-align:center;position:relative;z-index:5}
+.title{font-size:30px;letter-spacing:5px;margin-bottom:5px}.sub{color:#7f8a90;font-size:10px;margin-bottom:24px}
+.section{font-size:9px;color:#6e7a80;letter-spacing:2px;margin:14px 0 8px;text-align:left}
+.nights{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:10px 0 18px}
+.night{padding:14px 4px;background:#171c1f;color:#cbd2d5;border:1px solid #394146;border-radius:3px;font:12px monospace;cursor:pointer}.night.active{border-color:#3dd3df;background:#0c282c;color:#72e9f0;box-shadow:0 0 14px #1ec9d322}
+.start{width:100%;padding:14px;background:#182124;color:#e7edef;border:1px solid #4c5a60;border-radius:3px;font:bold 12px monospace;cursor:pointer}.start:active{background:#293438}
+.status{margin-top:13px;color:#6c797e;font-size:8px}.hint{margin-top:7px;color:#505b60;font-size:8px}
+.tutorial{position:fixed;inset:0;background:#030506;z-index:20;display:none;align-items:center;justify-content:center;overflow:hidden}.tutorial.show{display:flex}
+.tutorial:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#fff1 4px);pointer-events:none;opacity:.28}
+.tutorial:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,#0009 100%);pointer-events:none}
+.slide{width:min(650px,calc(100% - 42px));min-height:280px;padding:30px;box-sizing:border-box;border:1px solid #374247;background:linear-gradient(145deg,#111719,#07090a);box-shadow:0 20px 80px #000;position:relative;text-align:left}
+.kicker{font-size:9px;color:#45d9e4;letter-spacing:3px;margin-bottom:16px}.slide h1{font-size:24px;letter-spacing:3px;margin:0 0 15px}.slide p{font:13px/1.7 monospace;color:#b9c3c7;max-width:560px}.progress{position:absolute;left:30px;right:30px;bottom:22px;height:3px;background:#20272a}.progress i{display:block;height:100%;width:0;background:#42d8e3}.counter{position:absolute;right:30px;top:28px;color:#68757a;font-size:9px}.skip{position:absolute;right:18px;bottom:14px;background:none;border:0;color:#566267;font:9px monospace;z-index:3;cursor:pointer}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;visibility:hidden;pointer-events:none}
+@media(max-width:500px){.menu{padding:23px 16px}.title{font-size:23px}.nights{grid-template-columns:repeat(3,1fr)}.slide{padding:23px;min-height:300px}.slide h1{font-size:19px}.slide p{font-size:11px}}
+</style>
+</head>
+<body>
+<main class="menu" id="menu">
+  <div class="title">BLACKSITE-01</div>
+  <div class="sub">NORDIC SECURITY FACILITY // NIGHT OPERATIONS</div>
+  <div class="section">SELECT NIGHT</div>
+  <div class="nights" id="nights"></div>
+  <button class="start" id="start">ENTER SECURITY CONTROL</button>
+  <div class="status" id="loadStatus">FACILITY PRELOAD: INITIALIZING</div>
+  <div class="hint">The selected night determines your clearance level and starting position.</div>
+</main>
+
+<div class="tutorial" id="tutorial">
+  <div class="slide">
+    <div class="counter" id="counter">01 / 05</div>
+    <div class="kicker" id="kicker">BLACKSITE-01 // ORIENTATION</div>
+    <h1 id="tTitle">WELCOME, SECURITY</h1>
+    <p id="tText">You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.</p>
+    <div class="progress"><i id="progress"></i></div>
+  </div>
+  <button class="skip" id="skip">SKIP TUTORIAL</button>
+</div>
+
+<iframe id="game" title="NORDIC BLACKSITE-01"></iframe>
+
+<script>
+const nights=document.getElementById('nights');
+const start=document.getElementById('start');
+const menu=document.getElementById('menu');
+const game=document.getElementById('game');
+const loadStatus=document.getElementById('loadStatus');
+let selected=Math.max(1,Math.min(5,Number(sessionStorage.getItem('nordicNight')||1)));
+for(let i=1;i<=5;i++){
+  const b=document.createElement('button');
+  b.className='night'+(i===selected?' active':'');
+  b.textContent='NIGHT '+i;
+  b.onclick=()=>{selected=i;document.querySelectorAll('.night').forEach(x=>x.classList.remove('active'));b.classList.add('active');sessionStorage.setItem('nordicNight',String(i));};
+  nights.appendChild(b);
+}
+
+// Start loading the actual game while the player is still looking at the menu.
+// If the browser has already loaded it, entering a night should not create a second loading phase.
+game.onload=()=>{loadStatus.textContent='FACILITY PRELOAD: READY';game.dataset.ready='1'};
+game.onerror=()=>{loadStatus.textContent='FACILITY PRELOAD: FAILED — RETRY ON ENTRY'};
+game.src='facility.html';
+
+const slides=[
+ ['BLACKSITE-01 // ORIENTATION','WELCOME, SECURITY','You are entering BLACKSITE-01. Your shift runs from 11:00 PM until 6:00 AM. Keep the facility secure and monitor the situation around you.'],
+ ['BLACKSITE-01 // MOVEMENT','THE FACILITY IS PHYSICAL','This is a real facility, not a collection of separate screens. Corridors and rooms have physical positions. Future encounters can move through the same world.'],
+ ['BLACKSITE-01 // SECURITY','WATCH YOUR MONITORS','Use the security systems to check areas of the facility. Doors, lights, cameras and other controls are part of your security station.'],
+ ['BLACKSITE-01 // NORDIC','NORDIC IS SOMEWHERE INSIDE','You are not selecting Nordic from a menu. Nordic exists in the facility world. As the nights progress, his behaviour and access to the blacksite will become more dangerous.'],
+ ['BLACKSITE-01 // CLEARANCE','NIGHT = CLEARANCE LEVEL','Each night represents a higher clearance level. New areas and systems can be added to the same blacksite as the game expands. Survive your shift.']
+];
+let tutorialTimer=null,slideStart=0,slideIndex=0;
+const tutorial=document.getElementById('tutorial'),tTitle=document.getElementById('tTitle'),tText=document.getElementById('tText'),kicker=document.getElementById('kicker'),counter=document.getElementById('counter'),progress=document.getElementById('progress');
+function showSlide(i){
+  slideIndex=i;const s=slides[i];kicker.textContent=s[0];tTitle.textContent=s[1];tText.textContent=s[2];counter.textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');progress.style.width='0%';slideStart=performance.now();
+  cancelAnimationFrame(tutorialTimer);
+  function tick(now){const pct=Math.min(100,(now-slideStart)/4300*100);progress.style.width=pct+'%';if(pct<100){tutorialTimer=requestAnimationFrame(tick)}else if(slideIndex<slides.length-1){showSlide(slideIndex+1)}else finishTutorial()}
+  tutorialTimer=requestAnimationFrame(tick);
+}
+function finishTutorial(){cancelAnimationFrame(tutorialTimer);localStorage.setItem('nordicTutorialSeen','1');tutorial.classList.remove('show');menu.style.display='grid';}
+function runTutorial(){menu.style.display='none';tutorial.classList.add('show');showSlide(0)}
+document.getElementById('skip').onclick=finishTutorial;
+
+if(localStorage.getItem('nordicTutorialSeen')!=='1'){
+  // Give the menu a moment to appear before the first-time orientation cuts in.
+  menu.style.display='none';
+  setTimeout(runTutorial,450);
+}
+
+start.onclick=()=>{
+  sessionStorage.setItem('nordicNight',String(selected));
+  menu.style.display='none';
+  game.style.visibility='visible';
+  game.style.pointerEvents='auto';
+};
+</script>
+</body>
+</html>
