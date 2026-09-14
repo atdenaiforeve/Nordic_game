@@ -60,8 +60,8 @@ function startThree(){
     status.textContent='Building security office...';
 
     const scene=new THREE.Scene();
-    scene.background=new THREE.Color(0x090c0e);
-    scene.fog=new THREE.Fog(0x090c0e,10,30);
+    scene.background=new THREE.Color(0x090607);
+    scene.fog=new THREE.Fog(0x090607,10,30);
     const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.05,60);
     camera.position.set(0,2.15,7.4);
     scene.add(camera);
@@ -72,7 +72,7 @@ function startThree(){
     renderer.shadowMap.type=THREE.PCFSoftShadowMap;
     game.appendChild(renderer.domElement);
 
-    const mats={wall:new THREE.MeshStandardMaterial({color:0x252c30,roughness:.9}),floor:new THREE.MeshStandardMaterial({color:0x171b1d,roughness:.86}),trim:new THREE.MeshStandardMaterial({color:0x384146,roughness:.65}),dark:new THREE.MeshStandardMaterial({color:0x0d1012,roughness:.8}),metal:new THREE.MeshStandardMaterial({color:0x59656b,metalness:.6,roughness:.4}),desk:new THREE.MeshStandardMaterial({color:0x20272a,roughness:.7}),screen:new THREE.MeshStandardMaterial({color:0x10252b,emissive:0x0b4654,emissiveIntensity:1.15,roughness:.35})};
+    const mats={wall:new THREE.MeshStandardMaterial({color:0x252326,roughness:.9}),floor:new THREE.MeshStandardMaterial({color:0x171316,roughness:.86}),trim:new THREE.MeshStandardMaterial({color:0x40343a,roughness:.65}),dark:new THREE.MeshStandardMaterial({color:0x0d0a0c,roughness:.8}),metal:new THREE.MeshStandardMaterial({color:0x62565a,metalness:.6,roughness:.4}),desk:new THREE.MeshStandardMaterial({color:0x241b1f,roughness:.7}),screen:new THREE.MeshStandardMaterial({color:0x2b1115,emissive:0x5a1018,emissiveIntensity:1.05,roughness:.35})};
     function box(w,h,d,x,y,z,mat,cast=true,receive=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=cast;m.receiveShadow=receive;scene.add(m);return m}
     box(16,6,.35,0,3,-4.5,mats.wall); box(.35,6,9,-8,3,0,mats.wall); box(.35,6,9,8,3,0,mats.wall); box(16,.25,9,0,.05,0,mats.floor,false,true); box(16,.2,9,0,6.05,0,mats.dark,false,false);
     for(let x=-6;x<=6;x+=2)box(.045,5.7,.12,x,3,-4.29,mats.trim,false,true);
@@ -85,13 +85,13 @@ function startThree(){
     box(2.2,.08,1.1,0,.85,4.4,mats.dark);box(.7,.9,.7,0,1.25,4.4,mats.metal);
     for(const x of [-3.5,-1.2,1.2,3.5]){const lamp=new THREE.Mesh(new THREE.BoxGeometry(1.4,.08,.25),mats.metal);lamp.position.set(x,5.75,-.8);scene.add(lamp)}
 
-    // Deliberately dim room lighting: the office is dark enough that the flashlight matters.
-    const amb=new THREE.AmbientLight(0x667177,.13);scene.add(amb);
-    const key=new THREE.PointLight(0xd7e4e8,.85,16);key.position.set(0,5,2);key.castShadow=true;key.shadow.mapSize.set(256,256);scene.add(key);
-    const left=new THREE.PointLight(0x8db4c0,.38,9);left.position.set(-6,3,0);scene.add(left);
-    const right=new THREE.PointLight(0x8db4c0,.38,9);right.position.set(6,3,0);scene.add(right);
-    const glow1=new THREE.PointLight(0x168fa8,.65,5);glow1.position.set(-1.45,2.5,1.1);scene.add(glow1);
-    const glow2=new THREE.PointLight(0x168fa8,.65,5);glow2.position.set(1.45,2.5,1.1);scene.add(glow2);
+    // Deliberately dim red emergency-style room lighting. The flashlight remains neutral white.
+    const amb=new THREE.AmbientLight(0x4a1015,.15);scene.add(amb);
+    const key=new THREE.PointLight(0xff3038,.72,16);key.position.set(0,5,2);key.castShadow=true;key.shadow.mapSize.set(256,256);scene.add(key);
+    const left=new THREE.PointLight(0xb51f2a,.34,9);left.position.set(-6,3,0);scene.add(left);
+    const right=new THREE.PointLight(0xb51f2a,.34,9);right.position.set(6,3,0);scene.add(right);
+    const glow1=new THREE.PointLight(0x8d1722,.58,5);glow1.position.set(-1.45,2.5,1.1);scene.add(glow1);
+    const glow2=new THREE.PointLight(0x8d1722,.58,5);glow2.position.set(1.45,2.5,1.1);scene.add(glow2);
 
     // Player flashlight: narrow, dimmed beam attached to the camera.
     let flashlightOn=true;
