@@ -5,97 +5,109 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>NORDIC // BLACKSITE-01</title>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080000;color:#d7e0e3;font-family:monospace}
-#game{position:fixed;inset:0;display:block}
-#game canvas{display:block;width:100%;height:100%}
-.loading{position:fixed;inset:0;display:grid;place-items:center;background:#080000;color:#d7e0e3;font:13px monospace;z-index:9999;text-align:center;padding:24px;box-sizing:border-box}
-.loading small{display:block;margin-top:8px;font-size:9px;color:#b48a8a;max-width:85vw;line-height:1.5}
-.hidden{display:none!important}
-.hud{position:fixed;inset:0;pointer-events:none;display:none;z-index:10}
-.panel{pointer-events:auto;background:#160708ee;border:1px solid #5c2024;border-radius:8px;box-shadow:0 8px 30px #0008}
-.top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;align-items:center}
-.top .panel{padding:8px 10px;font-size:11px}
-.controls{position:absolute;left:10px;bottom:10px;display:flex;gap:7px;flex-wrap:wrap;max-width:calc(100% - 20px)}
-button{background:#241013;color:#f1d7d9;border:1px solid #6b2b30;border-radius:6px;padding:9px 11px;font:11px monospace;touch-action:manipulation}
-button:active{transform:translateY(1px);background:#3a171b}
-.objective{position:absolute;left:50%;top:68px;transform:translateX(-50%);max-width:min(560px,85vw);padding:9px 12px;font-size:10px;text-align:center}
-.log{position:absolute;right:10px;bottom:10px;width:min(310px,45vw);max-height:150px;overflow:hidden;padding:9px;font-size:9px;line-height:1.45}
-@media(max-width:700px){.log{width:46vw}.top{font-size:10px}.controls button{padding:8px 9px}.objective{top:62px}}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070607;color:#d8d1d1;font-family:monospace}
+#game{position:fixed;inset:0}#game canvas{display:block;width:100%;height:100%}
+.loading{position:fixed;inset:0;display:grid;place-items:center;background:#070607;color:#ddd;font:13px monospace;z-index:9999;text-align:center;padding:24px;box-sizing:border-box}.loading small{display:block;margin-top:8px;font-size:9px;color:#988f90;max-width:85vw;line-height:1.5}.hidden{display:none!important}
+.hud{position:fixed;inset:0;pointer-events:none;display:none;z-index:10}.panel{pointer-events:auto;background:#100d0dcc;border:1px solid #433638;border-radius:5px;box-shadow:0 6px 22px #0009}.top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;align-items:center}.top .panel{padding:8px 10px;font-size:11px}
+.controls{position:absolute;left:10px;bottom:10px;display:flex;gap:7px;flex-wrap:wrap;max-width:calc(100% - 20px)}button{background:#181416dd;color:#ddd;border:1px solid #514447;border-radius:5px;padding:9px 11px;font:11px monospace;touch-action:manipulation}button:active{transform:translateY(1px);background:#302528}.objective{position:absolute;left:50%;top:68px;transform:translateX(-50%);max-width:min(560px,85vw);padding:9px 12px;font-size:10px;text-align:center}@media(max-width:700px){.top .panel{font-size:9px;padding:7px 8px}.controls{gap:5px}.controls button{padding:8px 8px;font-size:9px}.objective{top:60px;font-size:9px}}
 </style>
 </head>
 <body>
-<div id="game"></div>
-<div class="loading" id="loading">STARTING NORDIC SECURITY OFFICE...<small id="loadStatus">Preparing the 3D engine...</small></div>
-<div class="hud" id="hud">
-  <div class="top">
-    <div class="panel">NORDIC SECURITY OFFICE</div>
-    <div class="panel"><span id="clock">11:00 PM</span> &nbsp; POWER <span id="power">100%</span></div>
-  </div>
-  <div class="objective panel" id="objective">OBJECTIVE: Survive until 6:00 AM.</div>
-  <div class="controls">
-    <button id="leftDoor">LEFT DOOR</button><button id="rightDoor">RIGHT DOOR</button>
-    <button id="leftLight">LEFT LIGHT</button><button id="rightLight">RIGHT LIGHT</button>
-    <button id="flashlight">FLASHLIGHT</button><button id="camera">CAMERA</button><button id="reboot">REBOOT</button>
-  </div>
-</div>
+<div id="game"></div><div class="loading" id="loading">STARTING NORDIC SECURITY OFFICE...<small id="loadStatus">Preparing the 3D engine...</small></div>
+<div class="hud" id="hud"><div class="top"><div class="panel">NORDIC SECURITY OFFICE</div><div class="panel"><span id="clock">11:00 PM</span> &nbsp; POWER <span id="power">100%</span></div></div><div class="objective panel">OBJECTIVE: Survive until 6:00 AM.</div><div class="controls"><button id="leftDoor">LEFT DOOR</button><button id="rightDoor">RIGHT DOOR</button><button id="leftLight">LEFT LIGHT</button><button id="rightLight">RIGHT LIGHT</button><button id="flashlight">FLASHLIGHT</button><button id="camera">CAMERA</button><button id="reboot">REBOOT</button></div></div>
 <script>
 let started=false;
-function fail(message){const loading=document.getElementById('loading');const status=document.getElementById('loadStatus');document.getElementById('hud').style.display='none';loading.classList.remove('hidden');status.textContent=message}
+function fail(message){const l=document.getElementById('loading');document.getElementById('hud').style.display='none';l.classList.remove('hidden');document.getElementById('loadStatus').textContent=message}
 function startThree(){
  if(started)return;started=true;
  try{
-  if(!window.THREE)throw new Error('Three.js loaded but the THREE object is unavailable.');
-  const THREE=window.THREE,game=document.getElementById('game'),loading=document.getElementById('loading'),status=document.getElementById('loadStatus');
-  status.textContent='Building security office...';
-  const scene=new THREE.Scene();
-  scene.background=new THREE.Color(0x080000);scene.fog=new THREE.Fog(0x180000,9,30);
-  const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.05,60);camera.position.set(0,2.15,7.4);scene.add(camera);
-  const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.25));renderer.setSize(innerWidth,innerHeight,false);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;game.appendChild(renderer.domElement);
-  const mats={wall:new THREE.MeshStandardMaterial({color:0x302326,roughness:.9}),floor:new THREE.MeshStandardMaterial({color:0x1b1112,roughness:.86}),trim:new THREE.MeshStandardMaterial({color:0x4a292c,roughness:.65}),dark:new THREE.MeshStandardMaterial({color:0x120708,roughness:.8}),metal:new THREE.MeshStandardMaterial({color:0x68595b,metalness:.6,roughness:.4}),desk:new THREE.MeshStandardMaterial({color:0x28191b,roughness:.7}),screen:new THREE.MeshStandardMaterial({color:0x10252b,emissive:0x0b4654,emissiveIntensity:1.15,roughness:.35})};
+  if(!window.THREE)throw new Error('Three.js is unavailable.');
+  const THREE=window.THREE,game=document.getElementById('game'),loading=document.getElementById('loading'),status=document.getElementById('loadStatus');status.textContent='Building realistic security office...';
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x070607);scene.fog=new THREE.Fog(0x12090b,8,27);
+  const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.05,60);camera.position.set(0,2.2,7.2);scene.add(camera);
+  const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.2));renderer.setSize(innerWidth,innerHeight,false);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.82;game.appendChild(renderer.domElement);
+
+  const mats={
+   concrete:new THREE.MeshStandardMaterial({color:0x3a3333,roughness:.94}),
+   concreteDark:new THREE.MeshStandardMaterial({color:0x252020,roughness:.96}),
+   floor:new THREE.MeshStandardMaterial({color:0x262526,roughness:.8,metalness:.08}),
+   floorDark:new THREE.MeshStandardMaterial({color:0x171617,roughness:.9}),
+   trim:new THREE.MeshStandardMaterial({color:0x4b4546,roughness:.68,metalness:.12}),
+   metal:new THREE.MeshStandardMaterial({color:0x666265,metalness:.72,roughness:.32}),
+   metalDark:new THREE.MeshStandardMaterial({color:0x272426,metalness:.65,roughness:.42}),
+   desk:new THREE.MeshStandardMaterial({color:0x332a29,roughness:.66}),
+   woodEdge:new THREE.MeshStandardMaterial({color:0x171313,roughness:.8}),
+   rubber:new THREE.MeshStandardMaterial({color:0x111112,roughness:.72}),
+   glass:new THREE.MeshStandardMaterial({color:0x18282b,roughness:.25,metalness:.08,emissive:0x082b30,emissiveIntensity:.72}),
+   paper:new THREE.MeshStandardMaterial({color:0x77706b,roughness:.92}),
+   red:new THREE.MeshStandardMaterial({color:0x35090d,emissive:0xb90010,emissiveIntensity:1.7,roughness:.38}),
+   warning:new THREE.MeshStandardMaterial({color:0x4b2815,emissive:0x8a3508,emissiveIntensity:.45,roughness:.5})
+  };
   function box(w,h,d,x,y,z,mat,cast=true,receive=true){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=cast;m.receiveShadow=receive;scene.add(m);return m}
-  box(16,6,.35,0,3,-4.5,mats.wall);box(.35,6,9,-8,3,0,mats.wall);box(.35,6,9,8,3,0,mats.wall);box(16,.25,9,0,.05,0,mats.floor,false,true);box(16,.2,9,0,6.05,0,mats.dark,false,false);
-  for(let x=-6;x<=6;x+=2)box(.045,5.7,.12,x,3,-4.29,mats.trim,false,true);
-  function door(x){box(2.4,4.6,.18,x,2.35,-4.05,mats.dark);box(2.1,4.3,.12,x,2.3,-3.93,mats.metal)}
-  door(-6.15);door(6.15);box(7,1.05,2.2,0,1.25,2.2,mats.desk);box(7.1,.16,2.3,0,1.82,2.2,mats.trim);
-  box(2.35,1.45,.12,-1.45,2.5,1.55,mats.dark);box(2.35,1.45,.12,1.45,2.5,1.55,mats.dark);box(2.15,1.25,.05,-1.45,2.5,1.47,mats.screen,false,false);box(2.15,1.25,.05,1.45,2.5,1.47,mats.screen,false,false);
-  box(1.7,.08,.8,0,1.94,2.25,mats.dark);box(.9,.08,.42,0,1.98,2.2,mats.trim);box(2.2,.08,1.1,0,.85,4.4,mats.dark);box(.7,.9,.7,0,1.25,4.4,mats.metal);
-  for(const x of [-3.5,-1.2,1.2,3.5]){const lamp=new THREE.Mesh(new THREE.BoxGeometry(1.4,.08,.25),mats.metal);lamp.position.set(x,5.75,-.8);scene.add(lamp)}
+  function cyl(r,h,x,y,z,mat,segments=16){const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,segments),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m}
+  function line(x1,y1,z1,x2,y2,z2,mat){const a=new THREE.Vector3(x1,y1,z1),b=new THREE.Vector3(x2,y2,z2);const g=new THREE.BufferGeometry().setFromPoints([a,b]);const m=new THREE.Line(g,new THREE.LineBasicMaterial({color:mat.color||0x555555}));scene.add(m);return m}
 
-  // Red emergency room lighting is part of the 3D scene itself, not just the HUD.
-  const redAmbient=new THREE.AmbientLight(0x300004,.16);scene.add(redAmbient);
-  const redKey=new THREE.PointLight(0xff1018,1.25,18);redKey.position.set(0,5.2,1.5);redKey.castShadow=true;redKey.shadow.mapSize.set(256,256);scene.add(redKey);
-  const redLeft=new THREE.PointLight(0xc90012,.7,10);redLeft.position.set(-6,3.2,-.5);scene.add(redLeft);
-  const redRight=new THREE.PointLight(0xc90012,.7,10);redRight.position.set(6,3.2,-.5);scene.add(redRight);
-  const redBack=new THREE.PointLight(0xff1820,.8,9);redBack.position.set(0,3,-3.5);scene.add(redBack);
+  // Architecture: layered concrete walls, floor tiles, ceiling panels and industrial trim.
+  box(16,.18,9,0,.12,0,mats.floor,false,true);
+  for(let x=-7;x<=7;x+=2){for(let z=-3.5;z<=3.5;z+=2){box(1.92,.035,1.92,x,.215,z,((x+z)%4===0)?mats.floorDark:mats.floor,false,true)}}
+  box(16,6,.35,0,3,-4.55,mats.concrete);box(.35,6,9,-8,3,0,mats.concrete);box(.35,6,9,8,3,0,mats.concrete);
+  box(16,.22,9,0,6.02,0,mats.concreteDark,false,false);
+  for(let x=-7;x<=7;x+=2)box(.055,5.75,.13,x,3,-4.32,mats.trim,false,true);
+  for(const x of [-6,-3,0,3,6])box(.055,5.7,.13,x,3,-4.25,mats.concreteDark,false,true);
+  box(15.7,.22,.32,0,.45,-4.27,mats.trim);box(.32,.22,8.8,-7.75,.45,0,mats.trim);box(.32,.22,8.8,7.75,.45,0,mats.trim);
+  for(let x=-6;x<=6;x+=3)box(2.7,.04,8.5,x,5.88,0,mats.trim,false,false);
 
-  // Physical ceiling emergency lamps: the red light sources are visible in the 3D model.
-  const emergencyMat=new THREE.MeshStandardMaterial({color:0x5a080d,emissive:0xff1018,emissiveIntensity:2.5,roughness:.35});
-  for(const x of [-3.5,-1.2,1.2,3.5]){const lamp=box(1.4,.08,.25,x,5.75,-.8,emergencyMat,false,false);lamp.castShadow=false;lamp.receiveShadow=false}
+  // Rear doors and recessed frames.
+  const doors={L:false,R:false};const doorMeshes={L:null,R:null};
+  function makeDoor(side,x){box(2.9,4.95,.28,x,2.55,-4.28,mats.metalDark);box(2.5,4.55,.16,x,2.5,-4.08,mats.concreteDark);doorMeshes[side]=box(2.22,4.1,.14,x,2.42,-3.98,mats.metal);box(2.7,.16,.18,x,4.78,-3.86,mats.trim);box(.14,4.6,.18,x-1.33,2.5,-3.86,mats.trim);box(.14,4.6,.18,x+1.33,2.5,-3.86,mats.trim)}
+  makeDoor('L',-6.1);makeDoor('R',6.1);
 
-  let flashlightOn=true;
-  const flashlight=new THREE.SpotLight(0xeaf7ff,4.2,18,Math.PI/7,.52,1.4);flashlight.position.set(0,0,0);flashlight.castShadow=true;flashlight.shadow.mapSize.set(256,256);camera.add(flashlight);
-  const flashlightTarget=new THREE.Object3D();flashlightTarget.position.set(0,0,-10);camera.add(flashlightTarget);flashlight.target=flashlightTarget;
+  // Desk, supports, monitor arms, keyboard and loose equipment.
+  box(7.1,1.0,2.15,0,1.25,2.35,mats.desk);box(7.25,.13,2.22,0,1.78,2.35,mats.woodEdge);box(.18,1.1,1.9,-3.15,.72,2.35,mats.metalDark);box(.18,1.1,1.9,3.15,.72,2.35,mats.metalDark);
+  box(2.5,1.48,.14,-1.45,2.48,1.64,mats.rubber);box(2.5,1.48,.14,1.45,2.48,1.64,mats.rubber);
+  box(2.25,1.23,.055,-1.45,2.48,1.55,mats.glass,false,false);box(2.25,1.23,.055,1.45,2.48,1.55,mats.glass,false,false);
+  for(const x of [-2.55,-.35,.35,2.55])cyl(.055,.9,x,2.0,1.63,mats.metalDark,12);
+  box(1.65,.055,.72,0,1.94,2.38,mats.rubber);box(1.05,.06,.36,0,1.98,2.32,mats.trim);box(.42,.03,.18,-.7,2.01,2.15,mats.paper,false,false);box(.38,.025,.16,.62,2.01,2.22,mats.warning,false,false);
+  box(2.1,.07,1.0,0,.82,4.48,mats.rubber);cyl(.36,.8,0,1.24,4.48,mats.metalDark);box(.75,.7,.12,0,1.64,4.48,mats.metalDark);
 
-  let power=100,seconds=0,doors={L:false,R:false},cam=0;
-  const log=document.createElement('div');
-  const addLog=t=>{};
-  function toggleDoor(side){doors[side]=!doors[side]}
-  function lightDoor(side){}
+  // Ceiling fixtures and ventilation.
+  for(const x of [-4.5,0,4.5]){box(2.0,.08,.42,x,5.78,-.6,mats.metalDark,false,false);box(1.72,.055,.25,x,5.73,-.6,mats.paper,false,false)}
+  box(1.4,.08,1.05,0,5.78,-3.25,mats.metalDark,false,false);box(1.18,.045,.82,0,5.72,-3.25,mats.trim,false,false);
+  for(let i=0;i<8;i++)box(.055,.055,.55,-.5+i*.14,5.76,-3.25,mats.metal,false,false);
+
+  // Small environmental details that break up the perfect CG look.
+  for(const x of [-6.9,-6.55,6.55,6.9])box(.06,3.4,.06,x,2.4,-4.02,mats.metalDark,false,true);
+  box(.85,.03,.55,-4.7,1.86,2.15,mats.paper,false,false);box(.65,.025,.42,4.45,1.86,2.55,mats.paper,false,false);
+  cyl(.13,.04,-4.2,1.87,2.8,mats.metal,12);cyl(.09,.04,4.1,1.87,2.1,mats.warning,12);
+
+  // Red emergency lighting is physical and casts across the geometry.
+  const redAmbient=new THREE.AmbientLight(0x260004,.13);scene.add(redAmbient);
+  const redKey=new THREE.PointLight(0xff1820,1.05,18);redKey.position.set(0,5.1,.2);redKey.castShadow=true;redKey.shadow.mapSize.set(256,256);scene.add(redKey);
+  const redLeft=new THREE.PointLight(0xd10b16,.58,11);redLeft.position.set(-6,3.4,-1.4);scene.add(redLeft);
+  const redRight=new THREE.PointLight(0xd10b16,.58,11);redRight.position.set(6,3.4,-1.4);scene.add(redRight);
+  const redBack=new THREE.PointLight(0xff1720,.7,10);redBack.position.set(0,3.1,-3.7);scene.add(redBack);
+  const emergencyMat=new THREE.MeshStandardMaterial({color:0x4c080d,emissive:0xff1018,emissiveIntensity:2.2,roughness:.34});
+  for(const x of [-4.5,0,4.5]){const e=box(1.72,.06,.25,x,5.72,-.6,emergencyMat,false,false);e.castShadow=false;e.receiveShadow=false}
+
+  // Door-side practical lights, switched by the existing controls.
+  const sideL=new THREE.PointLight(0xdcefff,0,7);sideL.position.set(-6,2.8,-2.2);scene.add(sideL);const sideR=new THREE.PointLight(0xdcefff,0,7);sideR.position.set(6,2.8,-2.2);scene.add(sideR);
+  const doorStatus={L:doorMeshes.L,R:doorMeshes.R};
+
+  let flashlightOn=true;const flashlight=new THREE.SpotLight(0xeaf7ff,4.0,18,Math.PI/7,.55,1.5);flashlight.position.set(0,0,0);flashlight.castShadow=true;flashlight.shadow.mapSize.set(256,256);camera.add(flashlight);const flashlightTarget=new THREE.Object3D();flashlightTarget.position.set(0,0,-10);camera.add(flashlightTarget);flashlight.target=flashlightTarget;
+  let power=100,seconds=0,cam=0;
+  function toggleDoor(side){doors[side]=!doors[side];doorStatus[side].position.y=doors[side]?6.0:2.42}
+  function lightDoor(side){if(side==='L')sideL.intensity=sideL.intensity?0:2.4;else sideR.intensity=sideR.intensity?0:2.4}
   document.getElementById('leftDoor').onclick=()=>toggleDoor('L');document.getElementById('rightDoor').onclick=()=>toggleDoor('R');document.getElementById('leftLight').onclick=()=>lightDoor('L');document.getElementById('rightLight').onclick=()=>lightDoor('R');
-  document.getElementById('flashlight').onclick=()=>{flashlightOn=!flashlightOn;flashlight.intensity=flashlightOn?4.2:0};
-  document.getElementById('camera').onclick=()=>{cam=(cam+1)%4};document.getElementById('reboot').onclick=()=>{power=Math.max(0,power-2)};
-  let dragging=false,lastX=0,lastY=0,yaw=0,pitch=0;
-  addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging)return;yaw-=(e.clientX-lastX)*.003;pitch-=(e.clientY-lastY)*.002;pitch=Math.max(-.5,Math.min(.45,pitch));lastX=e.clientX;lastY=e.clientY});
-  addEventListener('wheel',e=>{camera.position.z=Math.max(4.5,Math.min(8,camera.position.z+e.deltaY*.004))},{passive:true});
+  document.getElementById('flashlight').onclick=()=>{flashlightOn=!flashlightOn;flashlight.intensity=flashlightOn?4.0:0};document.getElementById('camera').onclick=()=>{cam=(cam+1)%4;camera.position.x=cam===0?0:cam===1?-2.1:cam===2?2.1:0};document.getElementById('reboot').onclick=()=>{power=Math.max(0,power-2)};
+  let dragging=false,lastX=0,lastY=0,yaw=0,pitch=0;addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointercancel',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging)return;yaw-=(e.clientX-lastX)*.003;pitch-=(e.clientY-lastY)*.002;pitch=Math.max(-.5,Math.min(.45,pitch));lastX=e.clientX;lastY=e.clientY});addEventListener('wheel',e=>{camera.position.z=Math.max(4.5,Math.min(8,camera.position.z+e.deltaY*.004))},{passive:true});
   addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight,false)});
   function update(){const h=23+Math.floor(seconds/60),mins=seconds%60,hh=h>=24?h-24:h,display=hh===0?12:hh>12?hh-12:hh;document.getElementById('clock').textContent=display+':'+String(mins).padStart(2,'0')+(h<12?' AM':' PM');document.getElementById('power').textContent=Math.round(power)+'%'}
   let last=performance.now();function animate(now){const dt=Math.min(.1,(now-last)/1000);last=now;seconds+=dt;power=Math.max(0,power-dt*.018);update();camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;renderer.render(scene,camera);requestAnimationFrame(animate)}
   update();document.getElementById('hud').style.display='block';loading.classList.add('hidden');requestAnimationFrame(animate);
- }catch(err){started=false;fail('3D engine started but the office failed to initialize: '+(err&&err.message?err.message:'unknown error'))}
+ }catch(err){started=false;fail('3D office failed to initialize: '+(err&&err.message?err.message:'unknown error'))}
 }
 const sources=['./libs/three.min.js','https://unpkg.com/three@0.160.0/build/three.min.js','https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js'];let sourceIndex=0;
-function loadEngine(){if(sourceIndex>=sources.length){fail('Could not load the 3D engine. Local and backup engine sources failed. Check your connection, then reload.');return}const src=sources[sourceIndex++];document.getElementById('loadStatus').textContent='Loading 3D engine...';const script=document.createElement('script');script.src=src;script.onload=()=>startThree();script.onerror=()=>{script.remove();loadEngine()};document.head.appendChild(script)}
-loadEngine();
+function loadEngine(){if(sourceIndex>=sources.length){fail('Could not load the 3D engine. Local and backup engine sources failed. Check your connection, then reload.');return}const src=sources[sourceIndex++];document.getElementById('loadStatus').textContent='Loading 3D engine...';const script=document.createElement('script');script.src=src;script.onload=()=>startThree();script.onerror=()=>{script.remove();loadEngine()};document.head.appendChild(script)}loadEngine();
 </script>
 </body>
 </html>
