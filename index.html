@@ -1,14 +1,1 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NORDIC // BLACKSITE-01</title>
-<meta http-equiv="refresh" content="0;url=3d-office.html?v=realism-2">
-<script>location.replace("3d-office.html?v=realism-2");</script>
-</head>
-<body>
-<p>Loading NORDIC 3D Security Office...</p>
-<noscript><a href="3d-office.html?v=realism-2">Enter NORDIC</a></noscript>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NORDIC // BLACKSITE-01</title><style>body{margin:0;background:#050506;color:#ddd;font:13px monospace;display:grid;place-items:center;height:100vh}</style></head><body>Loading NORDIC SECURITY OFFICE...<script>(async()=>{try{const r=await fetch('3d-office.html',{cache:'no-store'});let h=await r.text();h=h.replace('</style>',' .look-zone{position:fixed;top:0;bottom:90px;width:34%;z-index:6;touch-action:none;pointer-events:auto}.look-zone.left{left:0}.look-zone.right{right:0}</style>');h=h.replace('<div id="game"></div>','<div id="game"></div><div class="look-zone left" id="lookLeft"></div><div class="look-zone right" id="lookRight"></div>');h=h.replace("let dragging=false,lastX=0,lastY=0,yaw=0,pitch=0;addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY});addEventListener('pointerup',()=>dragging=false);addEventListener('pointercancel',()=>dragging=false);addEventListener('pointermove',e=>{if(!dragging)return;yaw-=(e.clientX-lastX)*.003;pitch-=(e.clientY-lastY)*.002;pitch=Math.max(-.48,Math.min(.42,pitch));lastX=e.clientX;lastY=e.clientY});","let lookSide=0,yaw=0,pitch=0;const lookLeft=document.getElementById('lookLeft'),lookRight=document.getElementById('lookRight');function releaseLook(){lookSide=0}for(const z of [lookLeft,lookRight]){z.addEventListener('pointerdown',e=>{e.preventDefault();lookSide=z===lookLeft?-1:1;z.setPointerCapture?.(e.pointerId)},{passive:false});z.addEventListener('pointerup',releaseLook);z.addEventListener('pointercancel',releaseLook)}");h=h.replace("camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;","camera.rotation.order='YXZ';const targetYaw=lookSide===-1?-0.82:lookSide===1?0.82:0;yaw+=(targetYaw-yaw)*Math.min(1,dt*10);camera.rotation.y=yaw;camera.rotation.x=pitch;");document.open();document.write(h);document.close()}catch(e){document.body.textContent='NORDIC failed to load: '+e.message}})();</script></body></html>
