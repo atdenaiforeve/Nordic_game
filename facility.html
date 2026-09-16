@@ -1,39 +1,56 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>BLACKSITE-01 // SECURITY OFFICE</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BLACKSITE-01 // Security Office</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101315;color:#d8dcda;font-family:Arial,Helvetica,sans-serif}button{font:inherit;touch-action:manipulation}.game{height:100%;display:flex;flex-direction:column;background:#141819}.topbar{height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #39403f;background:#1b2020}.topbar .label{font-size:10px;letter-spacing:1.5px;color:#9da5a2}.clock{font-weight:bold;color:#e2e5e3}.main{min-height:0;flex:1;display:flex;gap:8px;padding:8px}.scene{position:relative;min-width:0;flex:1;border:1px solid #3d4543;background:#222827;overflow:hidden}.office{position:absolute;inset:0;background:#252b2a}.backwall{position:absolute;left:0;right:0;top:0;height:43%;background:linear-gradient(#333a38,#282e2d);border-bottom:4px solid #151918}.floor{position:absolute;left:0;right:0;top:43%;bottom:0;background:repeating-linear-gradient(0deg,#171b1a 0,#171b1a 24px,#1c211f 25px,#1c211f 26px)}.ceilingline{position:absolute;left:0;right:0;top:43%;height:5px;background:#414846}.door{position:absolute;top:8%;width:18%;height:35%;background:#3b4140;border:4px solid #111615;box-shadow:inset 0 0 0 2px #626966}.door.left{left:5%}.door.right{right:5%}.door .window{position:absolute;left:15%;right:15%;top:12%;height:42%;background:#182322;border:2px solid #69716e}.door .handle{position:absolute;right:13%;top:56%;width:8px;height:8px;border-radius:50%;background:#9aa19d}.light{position:absolute;top:4%;width:13%;height:6px;background:#c9cfca;box-shadow:0 0 12px #b9c1bc88}.light.left{left:20%}.light.right{right:20%}.desk{position:absolute;left:23%;right:23%;bottom:13%;height:22%;background:#343b39;border:3px solid #111615;box-shadow:0 8px 0 #0e1110}.deskfront{position:absolute;left:29%;right:29%;bottom:5%;height:12%;background:#202523;border:2px solid #111615}.monitor{position:absolute;bottom:29%;width:16%;height:17%;background:#121817;border:4px solid #090c0b;box-shadow:inset 0 0 0 1px #56605c}.monitor.one{left:29%}.monitor.two{left:42%}.monitor.three{left:55%}.screen{position:absolute;inset:9%;background:#1d2926;border:1px solid #5c6863;color:#b9c5bf;font:8px monospace;padding:5px;overflow:hidden}.keyboard{position:absolute;bottom:23%;left:43%;width:14%;height:3%;background:#777e79;border-radius:2px}.cabinet{position:absolute;bottom:10%;width:10%;height:30%;background:#303634;border:3px solid #111615}.cabinet.left{left:7%}.cabinet.right{right:7%}.pipe{position:absolute;background:#4a514e}.pipe.p1{left:1%;top:8%;width:2px;height:48%}.pipe.p2{right:2%;top:5%;width:3px;height:53%}.paper{position:absolute;bottom:25%;left:35%;width:7%;height:3%;background:#c8cbc5;transform:rotate(-3deg)}.cameraPanel{width:min(330px,34%);display:flex;flex-direction:column;border:1px solid #3d4543;background:#1b2020;min-width:230px}.panelHead{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;border-bottom:1px solid #343c3a;font-size:9px;letter-spacing:1.2px;color:#aeb6b2}.feed{position:relative;aspect-ratio:4/3;margin:8px;background:#0d1110;border:1px solid #505955;overflow:hidden}.feed:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#fff1 4px);opacity:.3}.maproom{position:absolute;inset:10%;border:3px solid #707873;background:#252b29}.maproom:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid #707873}.feedNordic{position:absolute;width:18px;height:18px;border-radius:50%;background:#aeb8b3;box-shadow:0 0 12px #dce4df;transform:translate(-50%,-50%);display:none}.feedNordic.show{display:block}.feedLabel{position:absolute;left:7px;bottom:6px;font:9px monospace;color:#c8cfcc}.cams{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:8px;overflow:auto}.camBtn,.controlBtn{border:1px solid #4b5551;background:#252b29;color:#cdd2cf;padding:9px 6px;border-radius:2px;cursor:pointer}.camBtn{font-size:9px}.camBtn.active{background:#313a36;border-color:#858f8a;color:#eef1ef}.camBtn:active,.controlBtn:active{background:#414946}.info{margin:auto 8px 8px;padding:8px;border:1px solid #343c39;color:#8f9994;font:8px/1.5 monospace}.bottom{flex:none;border-top:1px solid #39403f;background:#191e1d;padding:7px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.controlBtn{font-size:9px}.controlBtn.on{background:#37413d;border-color:#8d9892}.status{position:absolute;left:10px;bottom:10px;padding:5px 7px;background:#151918dd;border:1px solid #3f4845;color:#9ca6a1;font:8px monospace;z-index:4}.hidden{display:none!important}@media(max-width:700px){.topbar{height:42px}.main{padding:5px;gap:5px}.cameraPanel{width:38%;min-width:145px}.panelHead{font-size:7px;height:32px}.feed{margin:5px}.cams{gap:4px;padding:5px}.camBtn{font-size:7px;padding:7px 3px}.info{margin:4px;padding:5px;font-size:7px}.bottom{grid-template-columns:repeat(3,1fr);padding:5px;gap:4px}.controlBtn{padding:8px 3px;font-size:7px}.door{height:31%;top:10%}.monitor{height:14%;bottom:30%}.desk{left:19%;right:19%}.status{bottom:8px;left:7px;font-size:7px}}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101315;color:#d8dcda;font-family:Arial,Helvetica,sans-serif}
+button{font:inherit;touch-action:manipulation}
+.game{height:100%;display:flex;flex-direction:column;background:#141819}
+.topbar{height:48px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #39403f;background:#1b2020}
+.topbar .label{font-size:10px;letter-spacing:1.5px;color:#9da5a2}.clock{font-weight:bold;color:#e2e5e3}
+.main{min-height:0;flex:1;display:flex;gap:8px;padding:8px}
+.scene{position:relative;min-width:0;flex:1;border:1px solid #3d4543;background:#222827;overflow:hidden}
+.office{position:absolute;inset:0;background:#252b2a}
+.backwall{position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(#333a38,#282e2d);border-bottom:4px solid #151918}
+.floor{position:absolute;left:0;right:0;top:60%;bottom:0;background:#1b201f}
+.ceilingline{position:absolute;left:0;right:0;top:60%;height:5px;background:#414846}
+.door{position:absolute;top:8%;width:17%;height:45%;background:#3b4140;border:4px solid #111615;box-shadow:inset 0 0 0 2px #626966}.door.left{left:5%}.door.right{right:5%}
+.door .window{position:absolute;left:15%;right:15%;top:12%;height:42%;background:#182322;border:2px solid #69716e}.door .handle{position:absolute;right:13%;top:56%;width:8px;height:8px;border-radius:50%;background:#9aa19d}
+.light{position:absolute;top:4%;width:13%;height:6px;background:#c9cfca;box-shadow:0 0 12px #b9c1bc88}.light.left{left:20%}.light.right{right:20%}
+.desk{position:absolute;left:23%;right:23%;bottom:15%;height:13%;background:#343b39;border:3px solid #111615;box-shadow:0 6px 0 #0e1110}.deskfront{position:absolute;left:29%;right:29%;bottom:6%;height:12%;background:#202523;border:2px solid #111615}
+.monitor{position:absolute;bottom:27%;width:16%;height:17%;background:#121817;border:4px solid #090c0b;box-shadow:inset 0 0 0 1px #56605c}.monitor.one{left:29%}.monitor.two{left:42%}.monitor.three{left:55%}
+.screen{position:absolute;inset:9%;background:#1d2926;border:1px solid #5c6863;color:#b9c5bf;font:8px monospace;padding:5px;overflow:hidden}
+.keyboard{position:absolute;bottom:22%;left:43%;width:14%;height:3%;background:#777e79;border-radius:2px}.cabinet{position:absolute;bottom:12%;width:10%;height:31%;background:#303634;border:3px solid #111615}.cabinet.left{left:7%}.cabinet.right{right:7%}
+.pipe{position:absolute;background:#4a514e}.pipe.p1{left:1%;top:8%;width:2px;height:48%}.pipe.p2{right:2%;top:5%;width:3px;height:53%}.paper{position:absolute;bottom:24%;left:35%;width:7%;height:3%;background:#c8cbc5;transform:rotate(-3deg)}
+.cameraPanel{width:min(330px,34%);display:flex;flex-direction:column;border:1px solid #3d4543;background:#1b2020;min-width:230px}.panelHead{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;border-bottom:1px solid #343c3a;font-size:9px;letter-spacing:1.2px;color:#aeb6b2}
+.feed{position:relative;aspect-ratio:4/3;margin:8px;background:#0d1110;border:1px solid #505955;overflow:hidden}.feed:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#fff1 4px);opacity:.3}
+.maproom{position:absolute;inset:10%;border:3px solid #707873;background:#252b29}.maproom:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid #707873}
+.feedNordic{position:absolute;width:18px;height:18px;border-radius:50%;background:#aeb8b3;box-shadow:0 0 12px #dce4df;transform:translate(-50%,-50%);display:none}.feedNordic.show{display:block}
+.feedLabel{position:absolute;left:7px;bottom:6px;font:9px monospace;color:#c8cfcc}.cams{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:8px;overflow:auto}
+.camBtn,.controlBtn{border:1px solid #4b5551;background:#252b29;color:#cdd2cf;padding:9px 6px;border-radius:2px;cursor:pointer}.camBtn{font-size:9px}.camBtn.active{background:#313a36;border-color:#858f8a;color:#eef1ef}.camBtn:active,.controlBtn:active{background:#414946}
+.info{margin:auto 8px 8px;padding:8px;border:1px solid #343c39;color:#8f9994;font:8px/1.5 monospace}.bottom{flex:none;border-top:1px solid #39403f;background:#191e1d;padding:7px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.controlBtn{font-size:9px}.controlBtn.on{background:#37413d;border-color:#8d9892}
+.status{position:absolute;left:10px;bottom:10px;padding:5px 7px;background:#151918dd;border:1px solid #3f4845;color:#9ca6a1;font:8px monospace;z-index:4}.hidden{display:none!important}
+@media(max-width:700px){.topbar{height:42px}.main{padding:5px;gap:5px}.cameraPanel{width:38%;min-width:145px}.panelHead{font-size:7px;height:32px}.feed{margin:5px}.cams{gap:4px;padding:5px}.camBtn{font-size:7px;padding:7px 3px}.info{margin:4px;padding:5px;font-size:7px}.bottom{grid-template-columns:repeat(3,1fr);padding:5px;gap:4px}.controlBtn{padding:8px 3px;font-size:7px}.door{height:42%;top:9%}.monitor{height:14%;bottom:29%}.desk{left:19%;right:19%;height:11%;bottom:15%}.status{bottom:8px;left:7px;font-size:7px}}
 </style>
 </head>
 <body>
 <div class="game">
-<header class="topbar"><div class="label">BLACKSITE-01 // SECURITY OFFICE</div><div><span id="clock" class="clock">11:00 PM</span> &nbsp; <span class="label">POWER</span> <b id="power">100%</b></div></header>
-<main class="main">
-<section class="scene" aria-label="Security office">
-<div class="office"><div class="backwall"></div><div class="floor"></div><div class="ceilingline"></div><div class="light left"></div><div class="light right"></div><div class="door left"><div class="window"></div><div class="handle"></div></div><div class="door right"><div class="window"></div><div class="handle"></div></div><div class="cabinet left"></div><div class="cabinet right"></div><div class="pipe p1"></div><div class="pipe p2"></div><div class="desk"></div><div class="deskfront"></div><div class="monitor one"><div class="screen">CCTV SYSTEM<br>STANDBY</div></div><div class="monitor two"><div class="screen">FACILITY<br>SYSTEMS</div></div><div class="monitor three"><div class="screen">STATUS<br>ONLINE</div></div><div class="keyboard"></div><div class="paper"></div></div>
-<div class="status" id="status">SECURITY SYSTEMS ONLINE</div>
-</section>
-<aside class="cameraPanel">
-<div class="panelHead"><span>CCTV // CAMERA FEED</span><span id="camName">CAM-01</span></div>
-<div class="feed"><div class="maproom"></div><div id="feedNordic" class="feedNordic"></div><div id="feedLabel" class="feedLabel">HALL A // CLEAR</div></div>
-<div id="cams" class="cams"></div>
-<div class="info">Cameras are the main way to track movement. Nordic changes position over time based on the selected night's aggression level.</div>
-</aside>
-</main>
-<footer class="bottom"><button class="controlBtn" id="leftDoor">LEFT DOOR</button><button class="controlBtn" id="rightDoor">RIGHT DOOR</button><button class="controlBtn" id="leftLight">LEFT LIGHT</button><button class="controlBtn" id="rightLight">RIGHT LIGHT</button><button class="controlBtn" id="cameraBtn">CAMERA CLICK</button><button class="controlBtn" id="deskLamp">DESK LAMP</button></footer>
+<div class="topbar"><div class="label">BLACKSITE-01 // SECURITY OFFICE</div><div class="clock" id="clock">11:00 PM</div><div class="clock" id="power">100%</div></div>
+<div class="main">
+<div class="scene"><div class="office"><div class="backwall"></div><div class="floor"></div><div class="ceilingline"></div><div class="light left"></div><div class="light right"></div><div class="door left"><div class="window"></div><div class="handle"></div></div><div class="door right"><div class="window"></div><div class="handle"></div></div><div class="cabinet left"></div><div class="cabinet right"></div><div class="pipe p1"></div><div class="pipe p2"></div><div class="desk"></div><div class="deskfront"></div><div class="monitor one"><div class="screen">SECURITY MONITOR<br>CAMERA NETWORK</div></div><div class="monitor two"><div class="screen">SYSTEMS<br>ONLINE</div></div><div class="monitor three"><div class="screen">FACILITY<br>STATUS</div></div><div class="keyboard"></div><div class="paper"></div></div><div class="status" id="status">SECURITY SYSTEMS ONLINE</div></div>
+<div class="cameraPanel"><div class="panelHead"><span>CAMERA FEED</span><span id="camName">CAM-01</span></div><div class="feed"><div class="maproom"></div><div class="feedNordic" id="feedNordic"></div><div class="feedLabel" id="feedLabel"></div></div><div class="cams" id="cams"></div><div class="info">CAMERA NETWORK ACTIVE<br>SELECT A CAMERA TO VIEW<br>SECURITY OFFICE CONTROLS READY</div></div>
+</div>
+<div class="bottom"><button class="controlBtn" id="leftDoor">LEFT DOOR</button><button class="controlBtn" id="rightDoor">RIGHT DOOR</button><button class="controlBtn" id="leftLight">LEFT LIGHT</button><button class="controlBtn" id="rightLight">RIGHT LIGHT</button><button class="controlBtn" id="cameraBtn">CAMERA</button><button class="controlBtn" id="deskLamp">DESK LAMP</button></div>
 </div>
 <script>
 const night=Math.max(1,Math.min(5,Number(sessionStorage.getItem('nordicNight')||1)));
 const duration=7*60*1000;
 const startTime=performance.now();
-const cameras=[
- ['CAM-01','HALL A'],['CAM-02','STORAGE'],['CAM-03','SERVER'],['CAM-04','LAB'],['CAM-05','ARCHIVE'],['CAM-06','MAINT'],['CAM-07','POWER'],['CAM-08','LOADING']
-];
-let selectedCam=0,leftDoor=false,rightDoor=false,leftLight=false,rightLight=false,deskLamp=false,power=100;
-let nordicPos=0;
+const cameras=[['CAM-01','HALL A'],['CAM-02','STORAGE'],['CAM-03','SERVER'],['CAM-04','LAB'],['CAM-05','ARCHIVE'],['CAM-06','MAINT'],['CAM-07','POWER'],['CAM-08','LOADING']];
+let selectedCam=0,leftDoor=false,rightDoor=false,leftLight=false,rightLight=false,deskLamp=false,power=100,nordicPos=0;
 const aggression=[0,0.22,0.34,0.48,0.62,0.76][night];
 let lastMove=performance.now();
 const moveInterval=Math.max(2200,7200-(aggression*4200));
@@ -48,7 +65,8 @@ bind('leftDoor',()=>{leftDoor=!leftDoor;document.getElementById('leftDoor').clas
 bind('rightDoor',()=>{rightDoor=!rightDoor;document.getElementById('rightDoor').classList.toggle('on',rightDoor);status.textContent='RIGHT DOOR // '+(rightDoor?'CLOSED':'OPEN')});
 bind('leftLight',()=>{leftLight=!leftLight;document.getElementById('leftLight').classList.toggle('on',leftLight);status.textContent='LEFT LIGHT // '+(leftLight?'ON':'OFF')});
 bind('rightLight',()=>{rightLight=!rightLight;document.getElementById('rightLight').classList.toggle('on',rightLight);status.textContent='RIGHT LIGHT // '+(rightLight?'ON':'OFF')});
-bind('cameraBtn',cameraClick);bind('deskLamp',()=>{deskLamp=!deskLamp;document.getElementById('deskLamp').classList.toggle('on',deskLamp);status.textContent='DESK LAMP // '+(deskLamp?'ON':'OFF')});
+bind('cameraBtn',cameraClick);
+bind('deskLamp',()=>{deskLamp=!deskLamp;document.getElementById('deskLamp').classList.toggle('on',deskLamp);status.textContent='DESK LAMP // '+(deskLamp?'ON':'OFF')});
 function moveNordic(){if(Math.random()<aggression){nordicPos=(nordicPos+1+Math.floor(Math.random()*3))%cameras.length}else if(Math.random()<0.18){nordicPos=(nordicPos+1)%cameras.length}updateFeed();if(nordicPos===selectedCam)status.textContent='CAMERA '+cameras[selectedCam][0]+' // ACTIVITY';lastMove=performance.now()}
 function formatClock(p){const totalMinutes=Math.floor(p*420);const mins=totalMinutes%60;const hour24=23+Math.floor(totalMinutes/60);const h24=hour24%24;const ap=h24>=12?'PM':'AM';let h=h24%12;if(h===0)h=12;return String(h).padStart(2,'0')+':'+String(mins).padStart(2,'0')+' '+ap}
 function loop(now){const elapsed=now-startTime;const p=Math.min(1,elapsed/duration);clock.textContent=formatClock(p);const drain=0.55+aggression*0.35+(leftDoor?0.18:0)+(rightDoor?0.18:0)+(leftLight?0.08:0)+(rightLight?0.08:0)+(deskLamp?0.04:0);power=Math.max(0,100-(elapsed/60000)*drain);powerEl.textContent=Math.round(power)+'%';if(now-lastMove>=moveInterval){moveNordic()}if(p>=1){clock.textContent='06:00 AM';status.textContent='SHIFT COMPLETE';return}requestAnimationFrame(loop)}
