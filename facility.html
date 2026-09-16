@@ -14,17 +14,17 @@ button{font:inherit;touch-action:manipulation}
 .main{min-height:0;flex:1;display:flex;gap:8px;padding:8px}
 .scene{position:relative;min-width:0;flex:1;border:1px solid #3d4543;background:#222827;overflow:hidden}
 .office{position:absolute;inset:0;background:#252b2a}
-.backwall{position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(#333a38,#282e2d);border-bottom:4px solid #151918}
-.floor{position:absolute;left:0;right:0;top:60%;bottom:0;background:#1b201f}
-.ceilingline{position:absolute;left:0;right:0;top:60%;height:5px;background:#414846}
-.door{position:absolute;top:8%;width:17%;height:45%;background:#3b4140;border:4px solid #111615;box-shadow:inset 0 0 0 2px #626966}.door.left{left:5%}.door.right{right:5%}
+.backwall{position:absolute;left:0;right:0;top:0;height:72%;background:linear-gradient(#333a38,#282e2d);border-bottom:4px solid #151918}
+.floor{position:absolute;left:0;right:0;top:72%;bottom:0;background:#1b201f}
+.ceilingline{position:absolute;left:0;right:0;top:72%;height:5px;background:#414846}
+.door{position:absolute;top:9%;width:17%;height:59%;background:#3b4140;border:4px solid #111615;box-shadow:inset 0 0 0 2px #626966}.door.left{left:5%}.door.right{right:5%}
 .door .window{position:absolute;left:15%;right:15%;top:12%;height:42%;background:#182322;border:2px solid #69716e}.door .handle{position:absolute;right:13%;top:56%;width:8px;height:8px;border-radius:50%;background:#9aa19d}
 .light{position:absolute;top:4%;width:13%;height:6px;background:#c9cfca;box-shadow:0 0 12px #b9c1bc88}.light.left{left:20%}.light.right{right:20%}
-.desk{position:absolute;left:23%;right:23%;bottom:15%;height:13%;background:#343b39;border:3px solid #111615;box-shadow:0 6px 0 #0e1110}.deskfront{position:absolute;left:29%;right:29%;bottom:6%;height:12%;background:#202523;border:2px solid #111615}
-.monitor{position:absolute;bottom:27%;width:16%;height:17%;background:#121817;border:4px solid #090c0b;box-shadow:inset 0 0 0 1px #56605c}.monitor.one{left:29%}.monitor.two{left:42%}.monitor.three{left:55%}
+.desk{position:absolute;left:23%;right:23%;bottom:13%;height:13%;background:#343b39;border:3px solid #111615;box-shadow:0 6px 0 #0e1110}.deskfront{position:absolute;left:29%;right:29%;bottom:4%;height:12%;background:#202523;border:2px solid #111615}
+.monitor{position:absolute;bottom:30%;width:16%;height:18%;background:#121817;border:4px solid #090c0b;box-shadow:inset 0 0 0 1px #56605c}.monitor.one{left:29%}.monitor.two{left:42%}.monitor.three{left:55%}
 .screen{position:absolute;inset:9%;background:#1d2926;border:1px solid #5c6863;color:#b9c5bf;font:8px monospace;padding:5px;overflow:hidden}
-.keyboard{position:absolute;bottom:22%;left:43%;width:14%;height:3%;background:#777e79;border-radius:2px}.cabinet{position:absolute;bottom:12%;width:10%;height:31%;background:#303634;border:3px solid #111615}.cabinet.left{left:7%}.cabinet.right{right:7%}
-.pipe{position:absolute;background:#4a514e}.pipe.p1{left:1%;top:8%;width:2px;height:48%}.pipe.p2{right:2%;top:5%;width:3px;height:53%}.paper{position:absolute;bottom:24%;left:35%;width:7%;height:3%;background:#c8cbc5;transform:rotate(-3deg)}
+.keyboard{position:absolute;bottom:20%;left:43%;width:14%;height:3%;background:#777e79;border-radius:2px}.cabinet{position:absolute;bottom:9%;width:10%;height:40%;background:#303634;border:3px solid #111615}.cabinet.left{left:7%}.cabinet.right{right:7%}
+.pipe{position:absolute;background:#4a514e}.pipe.p1{left:1%;top:8%;width:2px;height:60%}.pipe.p2{right:2%;top:5%;width:3px;height:63%}.paper{position:absolute;bottom:22%;left:35%;width:7%;height:3%;background:#c8cbc5;transform:rotate(-3deg)}
 .cameraPanel{width:min(330px,34%);display:flex;flex-direction:column;border:1px solid #3d4543;background:#1b2020;min-width:230px}.panelHead{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;border-bottom:1px solid #343c3a;font-size:9px;letter-spacing:1.2px;color:#aeb6b2}
 .feed{position:relative;aspect-ratio:4/3;margin:8px;background:#0d1110;border:1px solid #505955;overflow:hidden}.feed:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#fff1 4px);opacity:.3}
 .maproom{position:absolute;inset:10%;border:3px solid #707873;background:#252b29}.maproom:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid #707873}
@@ -33,7 +33,7 @@ button{font:inherit;touch-action:manipulation}
 .camBtn,.controlBtn{border:1px solid #4b5551;background:#252b29;color:#cdd2cf;padding:9px 6px;border-radius:2px;cursor:pointer}.camBtn{font-size:9px}.camBtn.active{background:#313a36;border-color:#858f8a;color:#eef1ef}.camBtn:active,.controlBtn:active{background:#414946}
 .info{margin:auto 8px 8px;padding:8px;border:1px solid #343c39;color:#8f9994;font:8px/1.5 monospace}.bottom{flex:none;border-top:1px solid #39403f;background:#191e1d;padding:7px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}.controlBtn{font-size:9px}.controlBtn.on{background:#37413d;border-color:#8d9892}
 .status{position:absolute;left:10px;bottom:10px;padding:5px 7px;background:#151918dd;border:1px solid #3f4845;color:#9ca6a1;font:8px monospace;z-index:4}.hidden{display:none!important}
-@media(max-width:700px){.topbar{height:42px}.main{padding:5px;gap:5px}.cameraPanel{width:38%;min-width:145px}.panelHead{font-size:7px;height:32px}.feed{margin:5px}.cams{gap:4px;padding:5px}.camBtn{font-size:7px;padding:7px 3px}.info{margin:4px;padding:5px;font-size:7px}.bottom{grid-template-columns:repeat(3,1fr);padding:5px;gap:4px}.controlBtn{padding:8px 3px;font-size:7px}.door{height:42%;top:9%}.monitor{height:14%;bottom:29%}.desk{left:19%;right:19%;height:11%;bottom:15%}.status{bottom:8px;left:7px;font-size:7px}}
+@media(max-width:700px){.topbar{height:42px}.main{padding:5px;gap:5px}.cameraPanel{width:38%;min-width:145px}.panelHead{font-size:7px;height:32px}.feed{margin:5px}.cams{gap:4px;padding:5px}.camBtn{font-size:7px;padding:7px 3px}.info{margin:4px;padding:5px;font-size:7px}.bottom{grid-template-columns:repeat(3,1fr);padding:5px;gap:4px}.controlBtn{padding:8px 3px;font-size:7px}.door{height:55%;top:10%}.monitor{height:15%;bottom:32%}.desk{left:19%;right:19%;height:11%;bottom:13%}.status{bottom:8px;left:7px;font-size:7px}}
 </style>
 </head>
 <body>
